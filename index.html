@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag's Links</title>
+    
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+body {
+            font-family: 'Inter', sans-serif;
+            
+            /* 1. Base Color - Slightly deeper grey/blue for contrast */
+            background-color: #000000;
+            
+            /* 2. THE PRO UPGRADE: Double Layered Background */
+            background-image: 
+                /* Layer A: A soft white spotlight in the middle (The Glow) */
+                radial-gradient(circle at 50% 30%, rgba(64, 106, 110, 0.9) 0%, rgba(241, 245, 249, 0) 70%),
+                /* Layer B: The Dots (made slightly sharper) */
+                radial-gradient(#7995bc 1px, transparent 1px);
+            
+            /* 3. Sizing: Spotlight covers everything, Dots are 30px spaced */
+            background-size: 100% 100%, 30px 30px;
+            
+            /* 4. Fix it so the background doesn't move when you scroll (Premium feel) */
+            background-attachment: fixed;
+            
+            color: #1f2937;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 3rem 1rem;
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        /* --- LAYOUT CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 500px; /* Limits width on desktop */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        /* --- HEADER SECTION --- */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-wrapper:hover .profile-pic {
+            transform: rotate(6deg) scale(1.05);
+        }
+
+        .verified-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            border: 2px solid white;
+        }
+
+        .handle {
+            margin-top: 1rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+        }
+
+        .bio {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        /* --- TITLES --- */
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* --- LINKS SECTION --- */
+        .links-stack {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .link-card {
+            background-color: #cae6c6; /* That specific beige */
+            border-radius: 9999px; /* Pill shape */
+            padding: 0.375rem; /* Padding for the inner content */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Spreads icon, text, and spacer */
+            position: relative;
+            border: 0.5px solid #930ce1; 
+            /* Smooth transition for the spin later */
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 1.25,1);
+        }
+
+        .link-card:hover {
+            background-color: hwb(18 84% 2%);
+            
+            transform: scale(1.02);
+            /* box-shadow: 09px 40px 12px rgba(1, 183, 1, 0.08); */
+            box-shadow: 0 10px 20px rgba(220, 39, 67, 0.15);
+        }
+
+        .link-card:active .icon-box {
+            animation: spin-round 0.5s ease-in-out;
+        }
+
+
+        @keyframes spin-round {
+            from { transform: rotate(89deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Icon Container */
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .icon-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Specific Icon Backgrounds */
+        .bg-black { background-color: #000; }
+        .bg-green { background-color: #16a34a; }
+        .bg-yellow { background-color: #eab308; }
+        .bg-purple { background-color: #9333ea; }
+        .bg-transparent { background-color: transparent; }
+
+        .link-text {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #374151;
+            text-transform: uppercase;
+            padding: 0 0.5rem;
+        }
+
+        /* Invisible spacer to balance the flex layout so text is perfectly centered */
+        .spacer {
+            width: 48px;
+            flex-shrink: 0;
+        }
+
+        /* --- YOUTUBE SECTION --- */
+        .youtube-section {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .socials {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .social-icon {
+            color: #9ca3af;
+            font-size: 1.75rem;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        /* Brand Colors on Hover (Because we have standards) */
+        .social-icon:hover { transform: translateY(-3px); }
+        .social-icon.facebook:hover { color: #1877F2; }
+        .social-icon.insta:hover { color: #E1306C; }
+        .social-icon.twitter:hover { color: #1DA1F2; }
+        .social-icon.tiktok:hover { color: #000000; }
+        .social-icon.linkedin:hover { color: #0077b5; }
+        .social-icon.whatsapp:hover { color: #25D366; }
+        .social-icon.youtube:hover { color: #FF0000; }
+        .social-icon.email:hover { color: #374151; }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="profile-wrapper">
+                <img 
+                    class="profile-pic" 
+                    src="https://placehold.co/150x150/222/fff?text=S" 
+                    alt="Profile Picture"
+                >
+                <div class="verified-badge">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            
+            <h2 class="handle">@sreerag_dev</h2>
+            <p class="bio">Web Dev | Metalhead | Madridista</p>
+        </header>
+
+        <!-- Links List -->
+        <main class="links-stack">
+            <div class="section-title">My Favorite Links</div>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="icon-box bg-transparent">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/1200px-Real_Madrid_CF.svg.png" alt="Real Madrid">
+                </div>
+                <span class="link-text">Real Madrid Updates</span>
+                <div class="spacer"></div> 
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="icon-box bg-black">
+                    <i class="fas fa-guitar"></i>
+                </div>
+                <span class="link-text">My Heavy Metal Playlist</span>
+                <div class="spacer"></div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="icon-box bg-green">
+                    <i class="fab fa-python"></i>
+                </div>
+                <span class="link-text">My Python Projects (GitHub)</span>
+                <div class="spacer"></div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="icon-box bg-yellow">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <span class="link-text">Harry Potter Fan Theory Blog</span>
+                <div class="spacer"></div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="icon-box bg-purple">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <span class="link-text">Green Lantern Comics Review</span>
+                <div class="spacer"></div>
+            </a>
+            
+             <!-- Link 6 -->
+             <a href="#" class="link-card">
+                <div class="icon-box">
+                     <img src="https://placehold.co/100x100/333/fff?text=DC" alt="DC">
+                </div>
+                <span class="link-text">From "The Office" to Batman Fanatic</span>
+                <div class="spacer"></div>
+            </a>
+
+        </main>
+
+        <!-- YouTube Section -->
+
+
+         <section class="youtube-section">
+            <div class="section-title">Latest Video</div>
+            <div class="video-container">
+                <!-- NOW it's a thumbnail. Clicks go to YouTube. -->
+                <a href="https://youtu.be/VdeLyc9uEsE" target="_blank" title="Watch on YouTube">
+                    <img 
+                        src="https://img.youtube.com/vi/VdeLyc9uEsE/maxresdefault.jpg">
+                    <div class="play-overlay">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section-title">Connect with Me</div>
+            <div class="socials">
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon insta"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                <a href="mailto:sreerag@example.com" class="social-icon email"><i class="fas fa-envelope"></i></a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Sreerag. All rights reserved.
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
