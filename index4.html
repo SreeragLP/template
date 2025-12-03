@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@CelebLooksForLess - Official Links</title>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+
+               :root {
+            /* Existing Primary Colors (Buttons) */
+            --primary-color: #3f51b5; /* Deeper Indigo */
+            --primary-dark: #303f9f;
+            --text-color-dark: #212121; /* Dark grey for text on light backgrounds (used inside card) */
+
+            /* GOLD/SAND PALETTE FOR THE CARD */
+            --gold-start: #fcf8e8; /* Very light sand/cream base */
+            --gold-end: #f5e6b1; /* Soft golden yellow */
+            --gold-accent: #d4a95a; /* A rich gold for borders/accents */
+
+            /* NEW DARK EXTERIOR COLOR */
+            --body-dark-bg: #1e1e2d; /* Deep Professional Navy/Charcoal */
+
+            /* Link Styles (kept white for maximum contrast with the golden card) */
+            --link-bg-default: #ffffff; /* PURE WHITE for link panels */
+            --link-border-color: #e0e0e0;
+
+            /* EXTREME Shadow Effects (Multiple Layers for Depth) */
+            --shadow-link: 0 8px 15px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.25), 0 5px 10px rgba(0, 0, 0, 0.15); /* Maximum lift */
+            /* Stronger, more complex container shadow with a golden tint */
+            --shadow-container: 0 20px 45px rgba(0, 0, 0, 0.2), 0 0 15px rgba(212, 169, 90, 0.7);
+        }
+
+        body {
+            /* --- FIX: Setting the professional dark colour for the OUTSIDE --- */
+            background-color: var(--body-dark-bg);
+            background-image: none; /* Removing the noisy light geometric pattern */
+
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 15px 40px 15px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+
+            /* --- GOLDEN SAND GRADIENT EFFECT --- */
+            background-image: linear-gradient(145deg, var(--gold-start) 0%, var(--gold-end) 100%);
+
+            border-radius: 25px;
+            padding: 35px 35px 25px 35px;
+
+            /* --- ENHANCED BORDER AND SHADOW --- */
+            box-shadow: var(--shadow-container);
+            border: 4px solid var(--gold-accent); /* Thicker, richer gold border */
+        }
+
+        /* --- Profile Section Styling --- */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            /* UPDATED: High-quality placeholder image for a celebrity look */
+            background-image: url('https://i.scdn.co/image/ab67757000003b82dea1719d993ee6ce23c94c9c');
+            background-size: cover;
+            background-position: center;
+
+            border-radius: 50%;
+            display: block;
+            border: 5px solid white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 12px;
+        }
+
+
+          .name {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin: 2px;
+            color: var(--text-color);
+        }
+
+        .handle {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin:7px;
+            color: var(--text-color);
+        }
+
+        .bio {
+            font-size: 0.95rem;
+            color: #757575;
+            margin-top: 8px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        /* --- Link Buttons Styling: Fixed to be INSIDE the box --- */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .link-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            margin: 0 auto;
+
+            padding: 18px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+
+            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow-link);
+            border: 1px solid var(--link-border-color);
+        }
+
+        /* Primary Button Style (Deep Indigo) */
+        .link-button-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-link), 0 0 15px rgba(63, 81, 181, 0.5);
+        }
+
+        .link-button-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover), 0 0 25px rgba(63, 81, 181, 0.8);
+        }
+
+        /* Secondary Button Style (White/Light) */
+        .link-button-secondary {
+            background-color: var(--link-bg-default);
+            color: var(--text-color);
+        }
+
+        .link-button-secondary:hover {
+            background-color: #ffffff;
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Special Brand Buttons */
+        .link-button.amazon {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+        }
+        .link-button.amazon:hover {
+            background-color: #fb8c00;
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .link-button.tiktok {
+            background-color: #000000;
+            color: white;
+            border: none;
+        }
+        .link-button.tiktok:hover {
+            opacity: 0.9;
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .link-icon {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .link-icon.star {
+            color: #ffc107;
+        }
+
+        /* --- Social Icons Section --- */
+        .social-section {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .social-icon {
+            color: #9e9e9e;
+            font-size: 2.5rem;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.25);
+        }
+
+        /* Specific hover colors for social media platforms */
+        .social-icon.instagram:hover { color: #e91e63; }
+        .social-icon.pinterest:hover { color: #f44336; }
+        .social-icon.twitter:hover { color: #03a9f4; }
+        /* NEW: YouTube and LinkedIn Hover Styles */
+        .social-icon.youtube:hover { color: #ff0000; }
+        .social-icon.linkedin:hover { color: #0a66c2; }
+
+
+        /* --- Footer Branding (Refactored to be static and inside the container) --- */
+        .DeltaVerse-brand {
+            margin-top: 30px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #9e9e9e;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .DeltaVerse-brand a {
+            color: var(--primary-color);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .DeltaVerse-brand a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Container: Now a professional floating card -->
+    <div class="container">
+
+        <!-- Profile Section: Avatar and Handle -->
+        <header class="profile-header">
+            <!-- Avatar Placeholder: Celebrity Style (Image set in CSS) -->
+            <div class="avatar">
+            </div>
+            <!-- Profile Handle -->
+            <h3 class="name">
+                Sreerag
+            </h3>
+            <h5 class="handle">
+                @Sreerag_dev
+            </h5>
+            <!-- Bio/Description -->
+            <p class="bio">
+                Your exclusive source for high-street replicas. Shop the glam, skip the trauma.
+            </p>
+        </header>
+
+        <!-- Links Container -->
+        <main class="links-container">
+            <!-- Link 1: Latest Finds (Primary Deep Indigo) -->
+            <a href="https://example.com/latest" target="_blank" class="link-button link-button-primary">
+                <i class="fas fa-bag-shopping link-icon"></i> The Latest 'In-Stock' Dupes
+            </a>
+
+            <!-- Link 2: Specific Celeb Collection (Secondary White) -->
+            <a href="https://example.com/taylor" target="_blank" class="link-button link-button-secondary">
+                <i class="fas fa-star link-icon star"></i> Shop the 'Eras Tour' Looks for Less
+            </a>
+
+            <!-- Link 3: Amazon Storefront (Special Orange) -->
+            <a href="https://example.com/amazon" target="_blank" class="link-button amazon">
+                <i class="fab fa-amazon link-icon"></i> My Full Amazon Storefront
+            </a>
+
+            <!-- Link 4: TikTok/Video Content (Special Black) -->
+            <a href="https://example.com/tiktok" target="_blank" class="link-button tiktok">
+                <i class="fab fa-tiktok link-icon"></i> Watch the Newest TikTok Hauls
+            </a>
+
+            <!-- Link 5: Collaborations/Pitches (Secondary White) -->
+            <a href="mailto:contact@example.com" class="link-button link-button-secondary">
+                <i class="fas fa-envelope link-icon"></i> Business Inquiries & Partnerships
+            </a>
+        </main>
+
+        <!-- Social Icons Section - UPDATED WITH MORE ICONS -->
+        <section class="social-section">
+            <a href="https://instagram.com/celeblooksforless" target="_blank">
+                <i class="fab fa-instagram social-icon instagram"></i>
+            </a>
+            <a href="https://pinterest.com/celeblooksforless" target="_blank">
+                <i class="fab fa-pinterest social-icon pinterest"></i>
+            </a>
+            <a href="https://twitter.com/celeblooks" target="_blank">
+                <i class="fab fa-twitter social-icon twitter"></i>
+            </a>
+
+            <a href="https://youtube.com/celeblooksforless" target="_blank">
+                <i class="fab fa-youtube social-icon youtube"></i>
+            </a>
+
+            <a href="https://linkedin.com/in/celeblooksforless" target="_blank">
+                <i class="fab fa-linkedin social-icon linkedin"></i>
+            </a>
+        </section>
+
+        <!-- Footer  -->
+        <footer class="DeltaVerse-brand">
+            Built by <a href="#">DeltaVerse</a>, Hosted by DetaNetwork
+        </footer>
+
+    </div>
+
+</body>
+</html>
