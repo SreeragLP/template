@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | The Final Season Portfolio</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Chakra Petch (Military/Tech) & Inter (Professional Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Season 5: The Bleeding of Worlds - Deep corrupted reality */
+            background-color: #0a0a0a;
+            background-image: linear-gradient(to bottom, #111827, #0a0a0a);
+            color: #d1d5db; /* Grey 300 */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND FX: APOCALYPSE --- */
+        .corruption-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            /* Organic cracked vein texture */
+            background-image: url("https://www.transparenttextures.com/patterns/cracked-ground.png");
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* Falling Ash (Endgame atmosphere) */
+        .ash-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .ash {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+        /* Generate some random ash particles */
+        .ash:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: -2s; }
+        .ash:nth-child(2) { left: 30%; animation-duration: 20s; animation-delay: -5s; }
+        .ash:nth-child(3) { left: 50%; animation-duration: 18s; animation-delay: -1s; }
+        .ash:nth-child(4) { left: 70%; animation-duration: 22s; animation-delay: -8s; }
+        .ash:nth-child(5) { left: 90%; animation-duration: 16s; animation-delay: -3s; }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(110vh) translateX(20px); opacity: 0; }
+        }
+
+        /* Subtle red ambient bleed from the bottom */
+        .reality-bleed {
+            position: fixed;
+            bottom: -20%; left: 0; width: 100%; height: 50%;
+            background: radial-gradient(ellipse at bottom, rgba(153, 27, 27, 0.15), transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- MASTER CARD (The Professional Container) --- */
+        .master-card {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 40px 30px;
+
+            /* Clean, dark glassmorphism - professional but moody */
+            background: rgba(17, 24, 39, 0.7); /* Dark slate */
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 0 60px rgba(0, 0, 0, 0.5);
+
+            overflow: hidden;
+        }
+
+        /* Subtle vascular corruption on edges */
+        .master-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 24px;
+            box-shadow: inset 0 0 20px rgba(153, 27, 27, 0.1); /* Dried blood red */
+            pointer-events: none;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            /* Tactical/Military Feel */
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            color: #9ca3af;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border-radius: 8px;
+        }
+
+        .icon-btn:hover {
+            background: rgba(153, 27, 27, 0.2); /* Dark red tint */
+            color: #e5e7eb;
+            border-color: rgba(153, 27, 27, 0.5);
+            box-shadow: 0 0 15px rgba(153, 27, 27, 0.2);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 45px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 20px;
+            width: 120px;
+            height: 120px;
+            padding: 3px;
+            /* Corrupted vascular border */
+            background: linear-gradient(180deg, #374151, #991b1b, #374151);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Professional but moody filter */
+            filter: grayscale(0.7) contrast(1.1);
+            border-radius: 50%;
+            border: 2px solid #111827;
+            background-color: #111827;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* The Status Badge - Minimalist, serious */
+        .status-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: #111827;
+            border-radius: 50%;
+            padding: 4px;
+            z-index: 4;
+            border: 2px solid #111827;
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            background: #991b1b; /* Dark red active status */
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(153, 27, 27, 0.8);
+            animation: pulse-dot 4s infinite;
+        }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        h1 {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f3f4f6;
+            margin-bottom: 8px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+         h3 {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #f3f4f6;
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            /* Hawkins Lab Tech Style */
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(107, 114, 128, 0.3);
+            color: #d1d5db;
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .bio-text {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            max-width: 340px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .chinese-text {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* --- LINKS LIST --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 45px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            text-decoration: none;
+            color: #e5e5e5;
+
+            /* Professional Dark Panel */
+            background: rgba(31, 41, 55, 0.4);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        /* Hover: Organic Corruption takeover */
+        .link-card:hover {
+            background: rgba(20, 20, 25, 0.8);
+            border-color: rgba(153, 27, 27, 0.4); /* Red border */
+            transform: translateY(-2px);
+        }
+
+        /* Subtle vein texture overlay on hover */
+        .link-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/cracked-ground.png");
+            opacity: 0;
+            mix-blend-mode: overlay;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .link-card:hover::before { opacity: 0.15; }
+
+        /* Red glow creep from bottom */
+        .link-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 0%;
+            background: linear-gradient(to top, rgba(153, 27, 27, 0.2), transparent);
+            transition: height 0.4s ease;
+            pointer-events: none;
+        }
+        .link-card:hover::after { height: 100%; }
+
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 18px;
+            color: #6b7280;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-card:hover .link-icon {
+            color: #e5e7eb;
+        }
+
+        .link-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-title {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #f3f4f6;
+            letter-spacing: 0.02em;
+        }
+
+        .link-subtitle {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .link-card:hover .link-subtitle {
+            color: #d1d5db;
+        }
+
+        .link-arrow {
+            color: #4b5563;
+            font-size: 1rem;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-card:hover .link-arrow {
+            color: #e5e7eb;
+            transform: translateX(4px);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            position: relative;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-label {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 20px;
+        }
+
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #6b7280;
+            transition: all 0.2s;
+            background: rgba(31, 41, 55, 0.3);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+            border-radius: 10px;
+        }
+
+        .social-btn.x { color: #6b7280; }
+
+        .social-btn:hover {
+            color: #e5e7eb;
+            background: rgba(153, 27, 27, 0.2);
+            border-color: rgba(153, 27, 27, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #4b5563;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background FX -->
+    <div class="corruption-overlay"></div>
+    <div class="reality-bleed"></div>
+    <div class="ash-container">
+        <div class="ash"></div>
+        <div class="ash"></div>
+        <div class="ash"></div>
+        <div class="ash"></div>
+        <div class="ash"></div>
+    </div>
+
+    <!-- The Master Container (Professional Glass Panel) -->
+    <div class="master-card">
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-layer-group"></i> <!-- Systems -->
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-solid fa-terminal"></i> <!-- Console -->
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-shield-halved"></i> <!-- Security -->
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=250&q=80"
+                     alt="Profile"
+                     class="profile-img">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                </div>
+            </div>
+
+            <h1>Sreerag</h1>
+            <h3 >@Sreerag_dev</h3>
+
+            <!-- Professional Badge -->
+
+
+            <p class="bio-text">
+                Building scalable web applications with Python & Django. Architecting solutions for complex realities.
+
+            </p>
+        </section>
+
+        <!-- Links List -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-github"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project [MV]</h3>
+                    <p class="link-subtitle">View source code on GitHub</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Portfolio</h3>
+                    <p class="link-subtitle">Selected works & case studies</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Python Scripts</h3>
+                    <p class="link-subtitle">Library of useful code snippets</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-terminal"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Tech Blog</h3>
+                    <p class="link-subtitle">Tutorials on Django & API design</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-spotify"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Focus Playlist</h3>
+                    <p class="link-subtitle">Deep work music selection</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Contact Me</h3>
+                    <p class="link-subtitle">Available for freelance & collabs</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <p class="footer-label">Connect / End of Line</p>
+
+            <div class="social-grid">
+                <!-- Facebook -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+
+
+                <!-- TikTok -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+
+                <!-- Reddit -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-reddit-alien"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 Deltaverse. All rights reserved.
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
