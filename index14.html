@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | The Noir Edition</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Playfair Display (Luxury) & Montserrat (Modern Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* MIDNIGHT LUXURY: Deep Black/Grey Gradient */
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 70%);
+            color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND FX: GOLD DUST & SILK --- */
+        .silk-texture {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            /* Subtle noise texture for "expensive paper" feel */
+            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: -100px; left: 50%; transform: translateX(-50%);
+            width: 80%; height: 400px;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08), transparent 70%); /* Subtle Gold */
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* --- MASTER CARD (The Black Card) --- */
+        .master-card {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 0;
+
+            /* Matte Black Finish */
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #222;
+
+            /* The Gold Frame */
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(212, 175, 55, 0.1); /* Subtle Gold Edge */
+
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Elegant Top Border */
+        .master-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent); /* Gold Gradient */
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px 10px 30px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid #333;
+            color: #888;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border-radius: 0; /* Square for sharper look */
+            transform: rotate(45deg); /* Diamond shape */
+        }
+
+        .icon-btn i { transform: rotate(-45deg); }
+
+        .icon-btn:hover {
+            border-color: #d4af37; /* Gold */
+            color: #fff;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 25px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The Platinum & Gold Ring */
+        .profile-ring {
+            position: absolute;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-ring::before {
+            content: "";
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-top-color: #d4af37; /* Gold */
+            border-bottom-color: #777; /* Silver */
+            animation: spin-slow 12s linear infinite;
+        }
+
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Monochrome Noir */
+            filter: grayscale(1) contrast(1.1);
+            border: 1px solid #111;
+            z-index: 2;
+        }
+
+        /* Label above name */
+        .runway-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #d4af37; /* Gold */
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+
+
+         h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 14px;
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+
+        .bio-text {
+            font-size: 0.8rem;
+            color: #999;
+            max-width: 320px;
+            text-align: center;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .chinese-text {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.75rem;
+            color: #d4af37; /* Gold */
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* --- LINKS LIST (THE EDIT) --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 1px; /* Divider line look */
+            width: 100%;
+            background: #222; /* Gap color */
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 22px 30px;
+            text-decoration: none;
+            color: #fff;
+            background: #0f0f0f;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+        }
+
+        /* Hover: The Flash of Light */
+        .link-card:hover {
+            background: #161616;
+            padding-left: 35px; /* Slide effect */
+        }
+
+        /* Gold Accent on Hover */
+        .link-card::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 2px;
+            background: #d4af37;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .link-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .link-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 20px;
+            color: #555;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .link-card:hover .link-icon { color: #d4af37; }
+
+        .link-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .link-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            transition: color 0.3s;
+        }
+
+        .link-card:hover .link-title { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+
+        .link-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #555;
+            margin-top: 4px;
+            transition: color 0.3s;
+        }
+
+        .link-card:hover .link-subtitle { color: #888; }
+
+        .link-arrow {
+            color: #333;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .link-card:hover .link-arrow {
+            color: #d4af37;
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 50px 30px;
+            background: #0f0f0f;
+            position: relative;
+        }
+
+        .footer-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-btn {
+            width: 20px; /* Minimalist icon only */
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #444;
+            transition: all 0.3s;
+            background: transparent;
+            font-size: 1.1rem;
+        }
+
+        .social-btn:hover {
+            color: #d4af37; /* Gold hover */
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            margin-top: 40px;
+            font-size: 0.6rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+        }
+
+        /* --- DECORATIONS --- */
+        .decor-diamond {
+            position: absolute;
+            top: 30px; right: 30px;
+            font-size: 1.5rem;
+            color: #d4af37;
+            opacity: 0.1;
+            animation: pulse-decor 3s infinite alternate;
+        }
+
+        @keyframes pulse-decor {
+            0% { opacity: 0.1; }
+            100% { opacity: 0.3; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Texture & Glow -->
+    <div class="silk-texture"></div>
+    <div class="ambient-glow"></div>
+
+    <!-- The Master Container (Black Tie Card) -->
+    <div class="master-card">
+
+        <!-- Decoration -->
+        <div class="decor-diamond"><i class="fa-regular fa-gem"></i></div>
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-crown"></i> <!-- Royal -->
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-solid fa-bolt"></i> <!-- Energy -->
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-bag-shopping"></i> <!-- Collection -->
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <div class="profile-ring"></div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgoEUgngkdoYCZ3mCjyWD_ZP2-vlzSwT8Mtg&s"
+                     alt="Profile"
+                     class="profile-img">
+            </div>
+
+            <div class="runway-label">@Sreerag_dev </div>
+            <h1>Sreerag</h1>
+
+            <p class="bio-text">
+                Full Stack Developer. <br>
+                Designing the luxury of code.
+
+            </p>
+        </section>
+
+        <!-- Links List (The Edit) -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project</h3>
+                    <p class="link-subtitle">The [MV] Collection</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Portfolio</h3>
+                    <p class="link-subtitle">Selected Works</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">The Code</h3>
+                    <p class="link-subtitle">Python Scripts</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Editorial</h3>
+                    <p class="link-subtitle">Tech Chronicles</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Playlist</h3>
+                    <p class="link-subtitle">Midnight Vibes</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-regular fa-paper-plane"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Contact</h3>
+                    <p class="link-subtitle">Inquiries</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <p class="footer-label">Designed in Kerala</p>
+
+            <div class="social-grid">
+                <!-- Facebook -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+
+                <!-- TikTok -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+
+                <!-- Reddit -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-reddit-alien"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 Deltaverse. All Rights Reserved.
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
