@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag's Magical Links</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Cinzel for that Wizarding World vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            /* Dark Arts Purple/Black */
+            background-color: #0f0518;
+            min-height: 100vh;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- MAGIC DUST ANIMATION (Repurposed Starfield) --- */
+        .magic-dust {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            background: #0f0518 url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+            opacity: 0.5;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            background: transparent url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+            animation: move-magic 150s linear infinite;
+            opacity: 0.4;
+            /* Tint it Gold/Purple */
+            filter: sepia(100%) saturate(300%) hue-rotate(260deg);
+        }
+
+        @keyframes move-magic {
+            from {background-position:0 0;}
+            to {background-position:-10000px 5000px;}
+        }
+
+        /* --- MASTER CARD (The Enchanted Parchment) --- */
+        .master-card {
+            width: 100%;
+            max-width: 490px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 24px;
+
+            /* Dark Glass with Gold Accents */
+            background: rgba(20, 10, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid #bfa15f; /* Hogwarts Gold */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(191, 161, 95, 0.1);
+            border-radius: 12px;
+        }
+
+        /* Decorative Corners (Celtic/Magic style) */
+        .master-card::before {
+            content: "✦";
+            position: absolute;
+            top: 10px; left: 10px;
+            color: #bfa15f;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .master-card::after {
+            content: "✦";
+            position: absolute;
+            bottom: 10px; right: 10px;
+            color: #bfa15f;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(191, 161, 95, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 1px solid #bfa15f;
+            background: rgba(0, 0, 0, 0.4);
+            color: #bfa15f; /* Gold */
+            font-size: 1.2rem;
+            border-radius: 50%;
+        }
+
+        .icon-btn:hover {
+            background: #bfa15f;
+            color: #1a0b2e;
+            box-shadow: 0 0 15px #bfa15f; /* Lumos Glow */
+            transform: rotate(45deg);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        /* The Lightning Scar */
+        .profile-img-container::after {
+            content: "⚡";
+            position: absolute;
+            top: -15px;
+            right: 0;
+            font-size: 2.5rem;
+            color: #fbbf24;
+            transform: rotate(20deg);
+            z-index: 20;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+            pointer-events: none;
+        }
+
+        .profile-glow {
+            position: absolute;
+            top: -8px; bottom: -8px; left: -8px; right: -8px;
+            background: radial-gradient(circle, #bfa15f, #4c1d95);
+            border-radius: 50%;
+            filter: blur(15px);
+            opacity: 0.6;
+            z-index: -1;
+            transition: all 0.5s ease;
+        }
+
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px double #bfa15f; /* Double border for magic feel */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-img-container:hover .profile-img {
+            transform: scale(1.05);
+            border-color: #fff;
+        }
+
+        .profile-img-container:hover .profile-glow {
+            opacity: 0.9;
+            filter: blur(20px);
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            color: #e2e8f0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+         h3 {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 0.8rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            color: #e2e8f0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: #bfa15f; /* Gold */
+            font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+
+
+        /* --- LINKS LIST --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            padding-right: 16px;
+            text-decoration: none;
+            color: #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+
+            /* Old Paper / Dark Magic Style */
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(191, 161, 95, 0.3);
+            border-radius: 4px; /* Slightly sharp corners */
+        }
+
+        /* Hover Magic: LUMOS */
+        .link-card:hover {
+            transform: translateY(-2px);
+            background: rgba(20, 10, 30, 0.9);
+            border-color: #bfa15f;
+            /* The Lumos Glow */
+            box-shadow: 0 0 20px rgba(191, 161, 95, 0.4), inset 0 0 10px rgba(191, 161, 95, 0.2);
+        }
+
+        .link-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            /* Parchment background for icon */
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-right: 1px solid rgba(191, 161, 95, 0.3);
+        }
+
+        .link-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            filter: sepia(0.5) contrast(1.1); /* Old photo look */
+            transition: filter 0.3s;
+        }
+
+        .link-card:hover .link-thumb {
+            opacity: 1;
+            filter: none;
+        }
+
+        .link-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .link-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        .link-meta {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+        }
+
+        .link-action {
+            width: 32px;
+            display: flex;
+            justify-content: center;
+            color: #5b5b5b;
+            transition: all 0.3s;
+        }
+
+        /* Icon turns to Gold Snitch color on hover */
+        .link-card:hover .link-action {
+            color: #bfa15f;
+            text-shadow: 0 0 5px #bfa15f;
+            transform: rotate(360deg);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            border-top: 1px solid rgba(191, 161, 95, 0.3);
+            padding-top: 15px;
+            position: relative;
+        }
+
+        .footer-content {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-label {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 0.9rem;
+            color: #bfa15f;
+            letter-spacing: 0.1em;
+        }
+
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .social-btn {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #94a3b8;
+            transition: all 0.3s;
+            border: 1px solid rgba(191, 161, 95, 0.3);
+            border-radius: 50%;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.15);
+            background: #bfa15f; /* Gold background */
+            color: #0f0518; /* Black icon */
+            box-shadow: 0 0 15px #bfa15f;
+            border-color: #fff;
+        }
+
+        .copyright {
+            margin-top: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            opacity: 0.6;
+            color: #94a3b8;
+        }
+
+        /* DECORATIONS */
+        .decoration-symbol {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            opacity: 0.15;
+            color: #bfa15f;
+            z-index: 1;
+            pointer-events: none;
+            transform: rotate(-15deg);
+        }
+
+        /* Deathly Hallows Triangle tweak */
+        .fa-glasses {
+             filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Magic Background -->
+    <div class="magic-dust"></div>
+    <div class="floating-particles"></div>
+
+    <!-- The Master Card (Enchanted Parchment) -->
+    <div class="master-card">
+
+        <!-- Decoration: Glasses -->
+        <div class="decoration-symbol"><i class="fa-solid fa-glasses"></i></div>
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-bolt"></i> <!-- Lightning Icon -->
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-solid fa-scroll"></i> <!-- Scroll Icon -->
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-feather-pointed"></i> <!-- Quill Icon (Share) -->
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <div class="profile-glow"></div>
+                <img src="https://image.stern.de/34489568/t/Xl/v1/w1440/r1/-/daniel-radcliffe-harry-potter.jpg"
+                     alt="Profile"
+                     class="profile-img">
+            </div>
+
+            <h1>Sreerag p</h1>
+            <h3>@Sreerag_Dev</h3>
+            <p class="subtitle">Web Developer • Python & Django Wizard</p>
+
+        </section>
+
+        <!-- Links List -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project [MV]</h3>
+                    <p class="link-meta"><i class="fa-brands fa-github"></i> GitHub • Sreerag</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">My Portfolio</h3>
+                    <p class="link-meta"><i class="fa-solid fa-globe"></i> Website • Design</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Python Scripts</h3>
+                    <p class="link-meta"><i class="fa-brands fa-python"></i> Code • Snippets</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 (Tech Blog) -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">My Tech Blog</h3>
+                    <p class="link-meta"><i class="fa-solid fa-terminal"></i> Articles • Django Tips</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 (Spotify) -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Coding Vibes</h3>
+                    <p class="link-meta"><i class="fa-brands fa-spotify"></i> Spotify • Playlist</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Contact Me</h3>
+                    <p class="link-meta"><i class="fa-solid fa-envelope"></i> Email • Direct</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <p class="footer-label">Connect with me</p>
+
+                <div class="social-grid">
+                    <!-- Facebook -->
+                    <a href="#" class="social-btn fb">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a href="#" class="social-btn wa">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+
+
+                    <!-- TikTok -->
+                    <a href="#" class="social-btn tt">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+
+                    <!-- Reddit -->
+                    <a href="#" class="social-btn rd">
+                        <i class="fa-brands fa-reddit-alien"></i>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="#" class="social-btn ig">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 2025 DeltaVerse. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
