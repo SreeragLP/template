@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | The Stranger Things Archive</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Libre Baskerville (Title Font) & Courier Prime (80s Typewriter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            /* The Upside Down Red/Black Palette */
+            background-color: #000;
+            color: #ff3333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND FX: THE RED STORM --- */
+        .storm-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            background: linear-gradient(180deg, #000 0%, #1a0505 40%, #4a0a0a 100%);
+        }
+
+        /* Red Lightning Clouds */
+        .clouds {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.4;
+            animation: cloud-pulse 5s infinite alternate;
+        }
+
+        @keyframes cloud-pulse {
+            0% { opacity: 0.3; filter: brightness(1); }
+            100% { opacity: 0.6; filter: brightness(1.5) hue-rotate(-10deg); }
+        }
+
+        /* Lightning Flashes */
+        .lightning {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 50, 50, 0.1);
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: lightning-flash 8s infinite;
+        }
+
+        @keyframes lightning-flash {
+            0%, 90%, 93%, 96%, 100% { opacity: 0; }
+            91% { opacity: 0.4; background: rgba(255, 50, 50, 0.2); }
+            94% { opacity: 0.1; }
+            95% { opacity: 0.6; background: rgba(255, 255, 255, 0.1); } /* White flash */
+        }
+
+        /* Floating Spores (Upside Down Particles) */
+        .spores {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, #ccc, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
+            background-size: 200px 200px;
+            animation: drift 20s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(200px); }
+        }
+
+        /* VHS Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            z-index: 20;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* --- MASTER CARD --- */
+        .master-card {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        /* --- HEADER (THE TITLE SEQUENCE) --- */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .stranger-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.05em; /* Tight spacing like the logo */
+            color: transparent;
+            -webkit-text-stroke: 2px #ff1a1a; /* The red outline */
+            text-shadow:
+                0 0 10px rgba(255, 0, 0, 0.5),
+                0 0 20px rgba(255, 0, 0, 0.3);
+            margin-bottom: 10px;
+            line-height: 0.8;
+            position: relative;
+            /* The zoom-in animation from the intro */
+            animation: intro-zoom 3s ease-out forwards;
+        }
+
+        .stranger-subtitle {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em; /* Wide spacing for top/bottom text */
+            color: #ff1a1a;
+            text-shadow: 0 0 10px #ff0000;
+            margin-top: 5px;
+            border-top: 2px solid #ff1a1a;
+            padding-top: 5px;
+            width: 80%;
+        }
+
+        @keyframes intro-zoom {
+            0% { letter-spacing: -0.2em; opacity: 0; transform: scale(0.8); }
+            100% { letter-spacing: -0.05em; opacity: 1; transform: scale(1); }
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 20px;
+            width: 140px;
+            height: 140px;
+        }
+
+        /* The Void Ring */
+        .void-ring {
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 2px solid #ff1a1a;
+            border-radius: 50%;
+            box-shadow:
+                0 0 15px #ff0000,
+                inset 0 0 15px #ff0000;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            /* 80s Horror High Contrast */
+            filter: contrast(1.3) grayscale(1) brightness(0.8);
+            border: 2px solid #000;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-img:hover {
+            filter: contrast(1.1) grayscale(0) brightness(1); /* Reveal color */
+        }
+
+        .bio-text {
+            font-size: 0.9rem;
+            margin:12px;
+            color: #d1d5db;
+            max-width: 320px;
+            line-height: 1.5;
+            text-align: center;
+            text-shadow: 0 0 5px #000;
+        }
+
+        /* --- LINKS LIST (CHAPTERS) --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            text-decoration: none;
+            color: #ffcccc;
+            position: relative;
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.6);
+            /* Retro Border Style */
+            border-top: 1px solid #ff1a1a;
+            border-bottom: 1px solid #ff1a1a;
+        }
+
+        /* Hover: Neon Flicker */
+        .link-card:hover {
+            background: rgba(255, 26, 26, 0.1);
+            text-shadow: 0 0 8px #ff1a1a;
+            letter-spacing: 1px;
+        }
+
+        /* The Chapter Number */
+        .chapter-num {
+            font-family: 'Libre Baskerville', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: transparent;
+            -webkit-text-stroke: 1px #ff1a1a;
+            margin-right: 20px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .link-card:hover .chapter-num {
+            color: #ff1a1a; /* Fill it in on hover */
+            -webkit-text-stroke: 0px;
+        }
+
+        .link-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .link-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .link-subtitle {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        .footer-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+        }
+
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #999;
+            transition: all 0.2s;
+            border: 1px solid #333;
+            border-radius: 50%;
+            background: #000;
+        }
+
+        .social-btn:hover {
+            color: #ff1a1a;
+            border-color: #ff1a1a;
+            box-shadow: 0 0 15px #ff1a1a;
+            transform: scale(1.1);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #444;
+        }
+
+        /* --- DECORATIONS --- */
+        /* Grandfather Clock Silhouette */
+        .clock-decoration {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: #1a0505;
+            z-index: 1;
+            filter: drop-shadow(0 0 5px #ff0000);
+            opacity: 0.5;
+            animation: clock-tick 2s infinite alternate;
+        }
+
+        @keyframes clock-tick {
+            from { transform: rotate(-2deg); }
+            to { transform: rotate(2deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background FX -->
+    <div class="storm-bg"></div>
+    <div class="clouds"></div>
+    <div class="lightning"></div>
+    <div class="spores"></div>
+    <div class="scanlines"></div>
+
+    <div class="clock-decoration"><i class="fa-regular fa-clock"></i></div>
+
+    <!-- The Master Container -->
+    <div class="master-card">
+
+        <!-- Header (Title Sequence Style) -->
+        <header>
+
+            <h1 class="stranger-title">SREERAG</h1>
+            <div class="stranger-subtitle" style="border-top:none; border-bottom: 2px solid #ff1a1a;">@sreerag_dev</div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <div class="void-ring"></div>
+                <img src="https://hips.hearstapps.com/hmg-prod/images/robin-stranger-things-1562665217.jpg?crop=0.501xw:1.00xh;0.195xw,0&resize=1200:*"
+                     alt="Profile"
+                     class="profile-img">
+            </div>
+
+            <p class="bio-text">
+                Full Stack Developer. <br>
+                Surviving the Upside Down, one commit at a time.
+            </p>
+        </section>
+
+        <!-- Links List (Chapters) -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="chapter-num">1</div>
+                <div class="link-content">
+                    <h3 class="link-title">The Latest Project</h3>
+                    <p class="link-subtitle">GitHub Source Code</p>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="chapter-num">2</div>
+                <div class="link-content">
+                    <h3 class="link-title">The Portfolio</h3>
+                    <p class="link-subtitle">Works & Case Studies</p>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="chapter-num">3</div>
+                <div class="link-content">
+                    <h3 class="link-title">The Scripts</h3>
+                    <p class="link-subtitle">Python Libraries</p>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="chapter-num">4</div>
+                <div class="link-content">
+                    <h3 class="link-title">The Chronicles</h3>
+                    <p class="link-subtitle">Tech Blog & Tutorials</p>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="chapter-num">5</div>
+                <div class="link-content">
+                    <h3 class="link-title">The Mixtape</h3>
+                    <p class="link-subtitle">Focus Playlist</p>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="chapter-num">6</div>
+                <div class="link-content">
+                    <h3 class="link-title">Contact</h3>
+                    <p class="link-subtitle">Send a Message</p>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <p class="footer-label">Contact with me</p>
+
+            <div class="social-grid">
+                <!-- Facebook -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+
+                <!-- TikTok -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+
+                <!-- Reddit -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-reddit-alien"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 Sreerag Dev. Friends don't lie.
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
