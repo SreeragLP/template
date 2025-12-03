@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | Derry Public Library Archive</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Rye (Retro/Derry) & Special Elite (Typewriter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Special Elite', cursive;
+            /* Derry Rain/Sewer Atmosphere */
+            background-color: #1a1a1a;
+            color: #d1d5db;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND FX: RAIN & GRIME --- */
+        .rain-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.1));
+            background-size: 1px 100vh;
+        }
+
+        .grunge-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.6;
+            background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
+            pointer-events: none;
+        }
+
+        /* THE RED BALLOON */
+        .red-balloon {
+            position: fixed;
+            bottom: -100px;
+            right: 15%;
+            width: 60px;
+            height: 75px;
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3);
+            z-index: 1;
+            animation: floatUp 20s linear infinite;
+            opacity: 0.8;
+        }
+
+        .red-balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            width: 1px;
+            height: 30px;
+            background: #fff;
+            opacity: 0.5;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); bottom: -100px; }
+            50% { transform: translateY(-50vh) rotate(5deg); }
+            100% { transform: translateY(-120vh) rotate(-5deg); bottom: 120vh; }
+        }
+
+        /* --- MASTER CARD (The Missing Poster / Archive File) --- */
+        .master-card {
+            width: 100%;
+            max-width: 490px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+
+            /* Aged Paper Look */
+            background-color: #f0f0f0;
+            background-image: url("https://www.transparenttextures.com/patterns/aged-paper.png");
+
+            /* Torn/Worn Edges */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #d1d5db;
+            /* Removed rotation here */
+        }
+
+        /* "MISSING" Stamp effect overlay */
+        .master-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent 20%, transparent 80%, rgba(0,0,0,0.2));
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #8b0000; /* Blood Red Line */
+            padding-bottom: 15px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: transparent;
+            border: 2px solid #333;
+            color: #333;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border-radius: 50%;
+        }
+
+        .icon-btn:hover {
+            background: #8b0000;
+            color: #fff;
+            border-color: #8b0000;
+            transform: rotate(15deg);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 20px;
+            width: 120px;
+            height: 120px;
+            /* Polaroid Style */
+            background: #fff;
+            padding: 5px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            transform: rotate(2deg);
+        }
+
+        /* Red splatter decoration */
+        .profile-img-container::after {
+            content: "🎈";
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 2rem;
+            filter: drop-shadow(2px 4px 2px rgba(0,0,0,0.3));
+            animation: float-balloon 3s ease-in-out infinite;
+        }
+
+        @keyframes float-balloon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            border: 1px solid #ccc;
+        }
+
+        /* The Status Badge - Now a "Derry" Pin */
+        .status-badge {
+            position: absolute;
+            bottom: -5px;
+            left: -5px;
+            background: #8b0000;
+            border-radius: 50%;
+            padding: 4px;
+            z-index: 3;
+            color: white;
+            font-size: 0.6rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+        }
+
+        h1 {
+            font-family: 'Rye', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-family: 'Rye', serif;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            background: #333;
+            color: #f0f0f0;
+            font-family: 'Special Elite', cursive;
+            font-size: 0.8rem;
+            transform: rotate(-2deg);
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+
+        .bio-text {
+            font-family: 'Special Elite', cursive;
+            font-size: 0.9rem;
+            color: #444;
+            max-width: 320px;
+            line-height: 1.4;
+        }
+
+
+
+        /* --- LINKS LIST --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            text-decoration: none;
+            color: #1a1a1a;
+
+            /* Dirty Paper Strip */
+            background: #e5e5e5;
+            border-left: 5px solid #333;
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #fff;
+            border-right: 1px solid #ccc;
+
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hover: The "IT" Influence */
+        .link-card:hover {
+            background: #fff;
+            border-left-color: #8b0000; /* Bleeding edge */
+            transform: scale(1.02) translateX(5px);
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Blood drip effect on hover */
+        .link-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 5px; height: 0%;
+            background: #8b0000;
+            transition: height 0.4s ease;
+        }
+        .link-card:hover::after {
+            height: 100%;
+        }
+
+        .link-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 16px;
+            color: #555;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .link-card:hover .link-icon {
+            color: #8b0000;
+        }
+
+        .link-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .link-title {
+            font-family: 'Rye', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        .link-subtitle {
+            font-family: 'Special Elite', cursive;
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .link-card:hover .link-subtitle {
+            color: #000;
+        }
+
+        .link-arrow {
+            color: #888;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover .link-arrow {
+            color: #8b0000;
+            transform: rotate(90deg); /* Like a clock hand */
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            position: relative;
+            border-top: 2px dashed #8b0000;
+            padding-top: 20px;
+        }
+
+        /* Paper Boat Icon */
+        footer::before {
+            content: "\e4d1"; /* Sailboat icon code roughly, using FA class below instead */
+            font-family: "Font Awesome 6 Free";
+            display: none; /* Using the div below */
+        }
+
+        .boat-icon {
+            position: absolute;
+            top: -15px; left: 50%; transform: translateX(-50%);
+            background: #f0f0f0;
+            padding: 0 10px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .footer-label {
+            font-family: 'Rye', serif;
+            font-size: 0.8rem;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+        }
+
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #555;
+            transition: all 0.2s;
+            background: transparent;
+            border: 2px solid #555;
+            border-radius: 50%;
+        }
+
+        .social-btn.x { color: #555; }
+
+        .social-btn:hover {
+            color: #fff;
+            background: #8b0000; /* Blood Red */
+            border-color: #8b0000;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #666;
+            font-family: 'Special Elite', cursive;
+        }
+
+        /* --- PAPER BOAT DECORATION --- */
+        .paper-boat {
+            position: fixed;
+            bottom: 20px;
+            left: -50px;
+            font-size: 3rem;
+            color: #fff;
+            opacity: 0.8;
+            z-index: 5;
+            animation: sail 15s linear infinite;
+        }
+
+        @keyframes sail {
+            0% { left: -50px; transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { left: 110vw; transform: rotate(0deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background FX -->
+    <div class="grunge-overlay"></div>
+    <div class="rain-container"></div>
+
+    <!-- Floating Red Balloon -->
+    <div class="red-balloon"></div>
+
+    <!-- Sailing Paper Boat -->
+    <div class="paper-boat"><i class="fa-solid fa-sailboat"></i></div>
+
+    <!-- The Master Container (Missing Poster) -->
+    <div class="master-card">
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-book-open"></i> <!-- Library Book -->
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-solid fa-cloud-rain"></i> <!-- Rain -->
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-mask"></i> <!-- Carnival/Clown Ref -->
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <img src="https://static0.srcdn.com/wordpress/wp-content/uploads/2025/11/lilly-scared-with-watery-eyes-in-welcome-to-derry-episode-2.jpg?q=49&fit=crop&w=825&dpr=2"
+                     alt="Profile"
+                     class="profile-img">
+                <div class="status-badge">
+                    <i class="fa-solid fa-map-pin"></i>
+                </div>
+            </div>
+
+            <h1>Sreerag</h1>
+            <h3>@sreerag_dev</h3>
+
+            <!-- Professional Badge -->
+            <div class="role-badge">
+                Full Stack Developer
+            </div>
+
+            <p class="bio-text">
+                Building scalable web applications with Python & Django.
+
+            </p>
+        </section>
+
+        <!-- Links List -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-github"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project [MV]</h3>
+                    <p class="link-subtitle">View source code on GitHub</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Portfolio</h3>
+                    <p class="link-subtitle">Selected works & case studies</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Python Scripts</h3>
+                    <p class="link-subtitle">Library of useful code snippets</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-solid fa-terminal"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Tech Blog</h3>
+                    <p class="link-subtitle">Tutorials on Django & API design</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-brands fa-spotify"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Focus Playlist</h3>
+                    <p class="link-subtitle">Deep work music selection</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon">
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Contact Me</h3>
+                    <p class="link-subtitle">Available for freelance & collabs</p>
+                </div>
+                <div class="link-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="boat-icon"><i class="fa-solid fa-sailboat"></i></div>
+            <p class="footer-label">Connect in Derry</p>
+
+            <div class="social-grid">
+                <!-- Facebook -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+
+                <!-- TikTok -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+
+                <!-- Reddit -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-reddit-alien"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" class="social-btn">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 Deltaverse all rights reserved.
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
