@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag: The Krypton Archive</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Cinzel (Mythic) & Teko (Tech/HUD) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Teko:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Teko', sans-serif;
+            /* Deep Space Navy / Gunmetal */
+            background-color: #0b1116;
+            min-height: 100vh;
+            color: #b0c4de;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- KRYPTONIAN SUIT TEXTURE --- */
+        .hex-texture {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            /* Hexagon pattern via radial gradients */
+            background-image:
+                radial-gradient(circle, #1a232c 15%, transparent 16%),
+                radial-gradient(circle, #1a232c 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Central Vignette to focus attention */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            background: radial-gradient(circle, transparent 40%, #000000 120%);
+            pointer-events: none;
+        }
+
+        /* --- MASTER CARD (The Codex) --- */
+        .master-card {
+            width: 100%;
+            max-width: 490px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 40px 24px;
+
+            /* Metallic Plate Look */
+            background: linear-gradient(135deg, rgba(30, 39, 46, 0.9), rgba(15, 20, 25, 0.95));
+            border: 1px solid #3d4c53;
+            box-shadow:
+                0 0 0 1px #000, /* Inner black line */
+                0 20px 60px rgba(0, 0, 0, 0.9),
+                inset 0 0 40px rgba(0,0,0,0.8);
+
+            /* Chamfered Corners (Snyder style sharp angles) */
+            clip-path: polygon(
+                20px 0, 100% 0,
+                100% calc(100% - 20px), calc(100% - 20px) 100%,
+                0 100%, 0 20px
+            );
+        }
+
+        /* Decorative Silver accents */
+        .master-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 50%; width: 60px; height: 4px;
+            background: #7f8c8d;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #bdc3c7;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(176, 196, 222, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            border: 1px solid #546e7a;
+            background: rgba(0,0,0,0.4);
+            color: #cfd8dc;
+            font-size: 1.1rem;
+            /* Angled cut */
+            clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+        }
+
+        .icon-btn:hover {
+            background: #cfd8dc;
+            color: #000;
+            box-shadow: 0 0 15px rgba(207, 216, 220, 0.6);
+            transform: scale(1.05);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 45px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Metallic Ring Container */
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 20px;
+            cursor: pointer;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Silver Armor Ring */
+            background: linear-gradient(145deg, #78909c, #263238);
+            border-radius: 50%;
+            padding: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Desaturated, high structure look */
+            filter: grayscale(0.5) contrast(1.2) brightness(0.9);
+            border: 2px solid #000;
+            transition: all 0.4s ease;
+        }
+
+        /* Floating Emblem Effect */
+        .emblem-overlay {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 1px solid rgba(176, 196, 222, 0.3);
+            border-radius: 50%;
+            animation: spin-slow 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .emblem-overlay::before {
+            content: "";
+            position: absolute;
+            top: -5px; left: 50%; width: 10px; height: 10px;
+            background: #78909c;
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        @keyframes spin-slow {
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-img-container:hover .profile-img {
+            filter: grayscale(0) contrast(1.1);
+            transform: scale(0.95); /* Presses in slightly */
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #eceff1;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-shadow: 0 4px 10px rgba(0,0,0,1);
+            /* Metallic Text Gradient */
+            background: linear-gradient(to bottom, #ffffff 0%, #b0bec5 50%, #546e7a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            color: #90a4ae;
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .subtitle::after {
+            content: "";
+            position: absolute;
+            bottom: -5px; left: 0; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, #546e7a, transparent);
+        }
+
+        .chinese-text {
+            font-family: 'Teko', sans-serif;
+            font-size: 0.9rem;
+            color: #546e7a;
+            letter-spacing: 0.1em;
+            margin-top: 5px;
+        }
+
+        /* --- LINKS LIST --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            padding-right: 24px;
+            text-decoration: none;
+            color: #cfd8dc;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+
+            /* Brushed Metal Background */
+            background: #1c252b;
+            border: 1px solid #37474f;
+
+            /* Sharp Tech Corners */
+            clip-path: polygon(
+                12px 0, 100% 0,
+                100% calc(100% - 12px), calc(100% - 12px) 100%,
+                0 100%, 0 12px
+            );
+        }
+
+        /* HOVER: Horizontal Scan Flare (Anamorphic Lens Flare) */
+        .link-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            /* The Scan Beam */
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.0) 40%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0.0) 60%,
+                transparent 100%
+            );
+            transform: skewX(-20deg);
+            transition: none;
+        }
+
+        .link-card:hover::after {
+            left: 150%;
+            transition: left 0.6s ease-in-out;
+        }
+
+        .link-card:hover {
+            background: #263238; /* Slightly lighter metal */
+            border-color: #cfd8dc; /* Glowing border */
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(84, 110, 122, 0.3); /* Blue Steel Glow */
+            color: #fff;
+        }
+
+        .link-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            background: #10161a; /* Dark void for icon */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 18px;
+            flex-shrink: 0;
+            border: 1px solid #37474f;
+            /* Hexagon clip for icon container */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .link-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.7);
+            transition: all 0.3s;
+        }
+
+        .link-card:hover .link-thumb {
+            filter: grayscale(0) brightness(1.1);
+        }
+
+        .link-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .link-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #eceff1;
+        }
+
+        .link-meta {
+            font-family: 'Teko', sans-serif;
+            font-size: 0.9rem; /* Teko needs bigger size */
+            color: #78909c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 0px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .link-card:hover .link-meta {
+            color: #b0bec5;
+        }
+
+        .link-action {
+            width: 32px;
+            display: flex;
+            justify-content: center;
+            color: #546e7a;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .link-card:hover .link-action {
+            color: #ffffff;
+            text-shadow: 0 0 10px #fff;
+            transform: translateX(4px);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(84, 110, 122, 0.3);
+            position: relative;
+        }
+
+        /* Center decorative diamond */
+        footer::before {
+            content: "";
+            position: absolute;
+            top: -6px; left: 50%;
+            width: 12px; height: 12px;
+            background: #0b1116;
+            border: 1px solid #546e7a;
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: #546e7a;
+        }
+
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .social-btn {
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #78909c;
+            transition: all 0.3s;
+            border: 1px solid #37474f;
+            /* Diamond shape icons */
+            transform: rotate(45deg);
+        }
+
+        .social-btn i {
+            transform: rotate(-45deg); /* Counter-rotate icon */
+        }
+
+        .social-btn:hover {
+            background: #cfd8dc;
+            color: #000;
+            border-color: #cfd8dc;
+            box-shadow: 0 0 20px rgba(207, 216, 220, 0.5);
+            z-index: 5;
+            transform: rotate(45deg) scale(1.1);
+        }
+
+        .copyright {
+            margin-top: 10px;
+            font-family: 'Teko', sans-serif;
+            font-size: 0.85rem;
+            color: #455a64;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* --- DECORATION SYMBOL (Alien Script) --- */
+        .kryptonian-symbol {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 3rem;
+            opacity: 0.1;
+            color: #b0bec5;
+            z-index: 1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Kryptonian Texture Overlay -->
+    <div class="hex-texture"></div>
+    <div class="vignette"></div>
+
+    <!-- The Master Card (The Codex) -->
+    <div class="master-card">
+
+        <!-- Decoration: Shield shape -->
+        <div class="kryptonian-symbol"><i class="fa-brands fa-galactic-senate"></i></div>
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-diamond"></i>
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-solid fa-eye"></i> <!-- Vision -->
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-fingerprint"></i> <!-- Identity -->
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="emblem-overlay"></div>
+            <div class="profile-img-container">
+                <img src="https://cms.artcenter.edu/image/12668/b13/0.5,0.5/small"
+                     alt="Profile"
+                     class="profile-img">
+            </div>
+
+            <h1>Sreerag </h1>
+            <p class="subtitle">@sreerag_dev</p>
+
+        </section>
+
+        <!-- Links List -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project [MV]</h3>
+                    <p class="link-meta">GitHub • Sreerag</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">The Portfolio</h3>
+                    <p class="link-meta">Website • Design</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Python Scripts</h3>
+                    <p class="link-meta">Code • Snippets</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 (Tech Blog) -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Tech Chronicles</h3>
+                    <p class="link-meta">Articles • Django Tips</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 (Spotify) -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Auditory Focus</h3>
+                    <p class="link-meta">Spotify • Playlist</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100&q=80" class="link-thumb" alt="Icon">
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Communication</h3>
+                    <p class="link-meta">Email • Direct</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <p class="footer-label">Contact with me</p>
+
+                <div class="social-grid">
+                    <!-- Facebook -->
+                    <a href="#" class="social-btn fb">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a href="#" class="social-btn wa">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+
+                    <!-- TikTok -->
+                    <a href="#" class="social-btn tt">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+
+                    <!-- Reddit -->
+                    <a href="#" class="social-btn rd">
+                        <i class="fa-brands fa-reddit-alien"></i>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="#" class="social-btn ig">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 2025 Deltaverse All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
