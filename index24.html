@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | The Artist</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Syne (Artistic Headers) & Inter (Clean Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hide Scrollbar for Chrome/Safari/Opera */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        html {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        :root {
+            --bg-dark: #050505;
+            --card-bg: #121212;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #d4af37; /* Gold Accent */
+            --accent-gradient: linear-gradient(135deg, #d4af37, #aa8e2d);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            line-height: 1.5;
+            /* Grainy Noise Texture Background */
+            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+        }
+
+        /* Ambient Stage Light */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50vh; left: 50%; transform: translateX(-50%);
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- PROFILE HEADER --- */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        /* Vinyl Record Effect */
+        .avatar-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            background: repeating-radial-gradient(#111 0, #111 2px, #222 3px, #222 4px);
+            z-index: -1;
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .profile-info h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+        }
+
+        .profile-info .badges {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--text-muted);
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 320px;
+            margin: 10px;
+        }
+
+        /* --- CAROUSEL (MERCH STORE) --- */
+        .carousel-section {
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            padding-left: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 15px;
+            -webkit-overflow-scrolling: touch;
+            /* Hide scrollbar visually but keep functionality */
+            scrollbar-width: none;
+        }
+
+        .carousel::-webkit-scrollbar { display: none; }
+
+        .product-card {
+            flex: 0 0 160px;
+            scroll-snap-align: start;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #333;
+        }
+
+        .product-img-wrapper {
+            width: 100%;
+            height: 160px;
+            background: #222;
+            position: relative;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.5);
+            transition: filter 0.3s;
+        }
+
+        .product-card:hover .product-img { filter: grayscale(0); }
+
+        .product-details {
+            padding: 12px;
+        }
+
+        .product-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .buy-btn {
+            position: absolute;
+            bottom: 10px; right: 10px;
+            width: 30px; height: 30px;
+            background: #fff;
+            color: #000;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .buy-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- LINKS LIST --- */
+        .links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 18px 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 4px; /* Sleek, almost sharp */
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hover Effect */
+        .link-btn:hover {
+            background-color: #1a1a1a;
+            border-color: #333;
+        }
+
+        /* The "Playing" visualizer bar on hover */
+        .link-btn::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--text-main);
+            transform: scaleY(0);
+            transition: transform 0.2s;
+        }
+
+        .link-btn:hover::before { transform: scaleY(1); }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .link-icon {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            width: 20px;
+            text-align: center;
+        }
+
+        .link-text-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .link-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .link-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .link-action {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+
+        .link-btn:hover .link-action {
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        /* Featured Link (e.g. Latest Release) */
+        .link-btn.featured {
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .link-btn.featured .link-icon { color: #fff; }
+
+
+        /* --- FOOTER --- */
+        .footer {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 30px;
+        }
+
+        .social-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .social-icon {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .social-icon:hover {
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="avatar-container">
+                <img src="https://www.budapestreporter.com/wp-content/uploads/2021/01/blade-runner-2049-2017-review-the-cyberpunk-cinema-budapestreporter-2022-03-17_966537.jpg"
+                     alt="Sreerag Dev"
+                     class="avatar">
+            </div>
+
+            <div class="profile-info">
+                <div class="badges">
+                    <span class="badge">Developer</span>
+                    <span class="badge">Artist</span>
+                </div>
+                <h1>Sreerag P.</h1>
+                <h3>@Sreerag_dev</h3>
+                <p class="profile-bio">Orchestrating code like a symphony. Python, Django & Full Stack Development.</p>
+            </div>
+        </div>
+
+        <!-- CAROUSEL SECTION (Merch/Products) -->
+        <div class="carousel-section">
+            <div class="section-title">
+                Merch & Tools <span>View All <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            <div class="carousel">
+                <!-- Item 1 -->
+                <a href="#" class="product-card">
+                    <div class="product-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60" class="product-img" alt="Code Snippet">
+                        <div class="buy-btn"><i class="fa-solid fa-plus"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Django Starter Kit</div>
+                        <div class="product-price">$29.00</div>
+                    </div>
+                </a>
+
+                <!-- Item 2 -->
+                <a href="#" class="product-card">
+                    <div class="product-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=500&auto=format&fit=crop&q=60" class="product-img" alt="Laptop Sticker">
+                        <div class="buy-btn"><i class="fa-solid fa-plus"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Dev Sticker Pack</div>
+                        <div class="product-price">$12.00</div>
+                    </div>
+                </a>
+
+                <!-- Item 3 -->
+                <a href="#" class="product-card">
+                    <div class="product-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500&auto=format&fit=crop&q=60" class="product-img" alt="Course">
+                        <div class="buy-btn"><i class="fa-solid fa-plus"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Python Masterclass</div>
+                        <div class="product-price">$49.99</div>
+                    </div>
+                </a>
+
+                <!-- Item 4 -->
+                <a href="#" class="product-card">
+                    <div class="product-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60" class="product-img" alt="Digital Art">
+                        <div class="buy-btn"><i class="fa-solid fa-plus"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Digital Prints</div>
+                        <div class="product-price">$15.00</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Links Stack -->
+        <div class="links-stack">
+            <div class="section-title">Latest Drops</div>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-btn featured">
+                <div class="link-content">
+                    <div class="link-icon"><i class="fa-brands fa-github"></i></div>
+                    <div class="link-text-group">
+                        <span class="link-title">Latest Project [MV]</span>
+                        <span class="link-subtitle">Source Code • Released 2025</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-play link-action"></i>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-btn">
+                <div class="link-content">
+                    <div class="link-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="link-text-group">
+                        <span class="link-title">Portfolio</span>
+                        <span class="link-subtitle">Selected Works & Discography</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right link-action"></i>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-btn">
+                <div class="link-content">
+                    <div class="link-icon"><i class="fa-brands fa-python"></i></div>
+                    <div class="link-text-group">
+                        <span class="link-title">Python Scripts</span>
+                        <span class="link-subtitle">Code Library</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right link-action"></i>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-btn">
+                <div class="link-content">
+                    <div class="link-icon"><i class="fa-brands fa-spotify"></i></div>
+                    <div class="link-text-group">
+                        <span class="link-title">Focus Playlist</span>
+                        <span class="link-subtitle">Curated for Deep Work</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right link-action"></i>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-btn">
+                <div class="link-content">
+                    <div class="link-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="link-text-group">
+                        <span class="link-title">Contact Management</span>
+                        <span class="link-subtitle">Bookings & Inquiries</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right link-action"></i>
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="social-row">
+                <a href="#" class="social-icon"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fa-regular fa-envelope"></i></a>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 DeltaVErse. All Rights Reserved.
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
