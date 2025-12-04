@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | Creative Studio</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Baloo 2 (Friendly/Pixar) & Montserrat (Modern Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --studio-blue: #00a8e8; /* Pixar Sky Blue */
+            --studio-yellow: #ffdd59; /* Warmer Lamp Light */
+            --studio-orange: #ffab00; /* Warm accent */
+            --studio-red: #e74c3c; /* Ball Star Red */
+            --studio-dark: #2c3e50;
+            --studio-white: #ffffff;
+            --desk-wood: #4a3b2a; /* Dark wood desk color */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* ANIMATOR'S DESK AT NIGHT BACKGROUND */
+            /* A dark room with a warm wood desk surface at the bottom and a starry window above */
+            background:
+                linear-gradient(to bottom, transparent 60%, var(--desk-wood) 100%), /* Desk surface */
+                radial-gradient(circle at top center, #1e2747 0%, #0d1121 100%); /* Night sky window */
+            min-height: 100vh;
+            color: var(--studio-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND FX: FLOATING STARS (Window view) --- */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 60%; /* Only in the top window part */
+            pointer-events: none;
+            z-index: 0;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #fff, 0 0 10px var(--studio-yellow); /* Warmer star glow */
+            animation: twinkle 4s infinite ease-in-out;
+        }
+
+        /* Random stars */
+        .star:nth-child(1) { top: 10%; left: 10%; width: 3px; height: 3px; animation-delay: 0s; }
+        .star:nth-child(2) { top: 20%; left: 80%; width: 4px; height: 4px; animation-delay: 1s; }
+        .star:nth-child(3) { top: 40%; left: 5%; width: 2px; height: 2px; animation-delay: 2s; }
+        .star:nth-child(4) { top: 30%; left: 90%; width: 3px; height: 3px; animation-delay: 0.5s; }
+        .star:nth-child(5) { top: 50%; left: 20%; width: 4px; height: 4px; animation-delay: 1.5s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* --- CLOUD ANIMATIONS --- */
+        .clouds-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 60%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            animation: drift-cloud linear infinite;
+        }
+
+        .cloud:nth-child(1) { top: 15%; left: -20%; width: 150px; height: 60px; animation-duration: 40s; animation-delay: -5s; }
+        .cloud:nth-child(2) { top: 35%; left: -20%; width: 200px; height: 80px; animation-duration: 60s; animation-delay: -20s; opacity: 0.03; }
+        .cloud:nth-child(3) { top: 10%; left: -10%; width: 100px; height: 40px; animation-duration: 35s; animation-delay: 0s; }
+
+        @keyframes drift-cloud {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100vw); }
+        }
+
+        /* --- SHOOTING STAR --- */
+        .shooting-star {
+            position: absolute;
+            top: 50px; left: -100px;
+            width: 100px; height: 2px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transform: rotate(-20deg);
+            animation: shoot 12s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes shoot {
+            0% { left: -100px; top: 100px; opacity: 0; }
+            10% { opacity: 1; }
+            20% { left: 120%; top: -100px; opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* --- THE LUXO LAMP CONTAINER --- */
+        .lamp-peeking {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            height: 60px;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 40px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .lamp-icon-body {
+            font-size: 3rem;
+            color: #bdc3c7; /* Silver lamp body */
+            transform: rotate(-20deg) translateY(10px);
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+            position: relative;
+        }
+
+        /* The light cone coming from the lamp */
+        .lamp-light-cone {
+            position: absolute;
+            top: 40px;
+            right: -60px;
+            width: 200px;
+            height: 300px;
+            background: radial-gradient(ellipse at top left, rgba(255, 221, 89, 0.4), transparent 70%);
+            transform: rotate(-30deg);
+            pointer-events: none;
+            z-index: 15;
+            filter: blur(20px);
+            opacity: 0.8;
+        }
+
+
+        /* --- STUDIO WRAPPER (The Storyboard on the Desk) --- */
+        .studio-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+
+            /* Clean White Studio Look sitting on a desk */
+            background: rgba(255, 255, 255, 0.98);
+            /* Subtle paper texture */
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+
+            border-radius: 24px;
+            /* Warm glow border from the lamp */
+            border-top: 8px solid var(--studio-yellow);
+            border-bottom: 8px solid var(--studio-blue);
+
+            /* Realistic desk shadow + warm lamp glow */
+            box-shadow:
+                0 30px 60px -10px rgba(0, 0, 0, 0.5), /* Desk shadow */
+                0 -5px 20px rgba(255, 221, 89, 0.3), /* Top warm glow */
+                inset 0 0 20px rgba(255, 221, 89, 0.1); /* Inner warm glow */
+
+            padding: 30px 20px;
+            z-index: 10;
+            overflow: visible;
+            transform-style: preserve-3d; /* For 3D effects */
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .icon-btn {
+            width: 42px; height: 42px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy */
+            background: #fff;
+            border: 2px solid var(--studio-yellow);
+            color: var(--studio-dark);
+            font-size: 1.1rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .icon-btn:hover {
+            background: var(--studio-yellow);
+            color: var(--studio-dark);
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 8px 15px rgba(244, 208, 63, 0.4);
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex; flex-direction: column; align-items: center;
+            margin-bottom: 35px;
+            text-align: center; position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 15px;
+            width: 130px; height: 130px;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* The Luxo Ball Decoration - Bouncier */
+        .luxo-ball-icon {
+            position: absolute;
+            top: -25px; right: -15px;
+            font-size: 3rem;
+            color: var(--studio-yellow);
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+            z-index: 3;
+            animation: bounce-ball-squash 2s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        .luxo-ball-icon::after {
+            content: "\f005"; /* Star icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.45);
+            color: var(--studio-red);
+        }
+
+        @keyframes bounce-ball-squash {
+            0%, 100% { transform: translateY(0) scale(1, 1); }
+            50% { transform: translateY(-15px) scale(1.05, 0.95); } /* Squash and stretch */
+        }
+
+        .profile-img {
+            width: 120px; height: 120px;
+            border-radius: 50%; object-fit: cover;
+            /* Creative Ring with warm glow */
+            border: 5px solid #fff;
+            box-shadow:
+                0 0 0 5px var(--studio-blue),
+                0 0 20px rgba(255, 221, 89, 0.4);
+            z-index: 2;
+            background: white;
+        }
+
+        h1 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--studio-dark);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            /* 3D Title Pop */
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1);
+        }
+         h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--studio-blue);
+            letter-spacing: 0.05em;
+        }
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem; color: var(--studio-dark);
+            font-weight: 600;
+            background: rgba(255, 221, 89, 0.2); /* Warm highlight bg */
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* --- LINKS LIST --- */
+        main {
+            display: flex; flex-direction: column;
+            gap: 14px;
+            margin-bottom: 35px;
+        }
+
+        .link-card {
+            display: flex; align-items: center;
+            padding: 4px; padding-right: 18px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--studio-dark);
+            /* Extremely bouncy transition */
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative; overflow: hidden;
+
+            background: #fff;
+            border: 2px solid #f5f5f5;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            height: 58px;
+        }
+
+        /* Accent Bar */
+        .link-card::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; height: 100%; width: 8px;
+            background: var(--studio-yellow);
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 8px;
+        }
+
+        .link-card:nth-child(even)::before { background: var(--studio-blue); }
+
+        /* Hover: SUPER POP! */
+        .link-card:hover {
+            transform: scale(1.03) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 221, 89, 0.3); /* Warm glow on hover */
+            border-color: #fff;
+            z-index: 5;
+        }
+
+        .link-card:hover::before { width: 100%; opacity: 0.15; border-radius: 16px; }
+
+        .link-icon-wrapper {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            background: #fff9e6; /* Light yellow */
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 12px; flex-shrink: 0;
+            color: var(--studio-orange);
+            font-size: 1.2rem;
+            margin-left: 10px;
+            z-index: 2;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .link-card:nth-child(even) .link-icon-wrapper {
+            background: #e6f7ff; color: var(--studio-blue);
+        }
+
+        .link-card:hover .link-icon-wrapper {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .link-content {
+            flex: 1; display: flex; flex-direction: column; justify-content: center;
+            min-width: 0; z-index: 2;
+        }
+
+        .link-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.05rem; font-weight: 700;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            color: var(--studio-dark);
+            line-height: 1.1;
+        }
+
+        .link-meta {
+            font-size: 0.7rem; color: #888;
+            margin-top: 2px; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .link-action {
+            width: 24px; display: flex; justify-content: center;
+            color: #bdc3c7; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2; font-size: 1rem;
+        }
+        .link-card:hover .link-action { transform: translateX(5px) scale(1.2); color: var(--studio-blue); }
+
+        /* --- FOOTER --- */
+        footer { margin-top: auto; text-align: center; width: 100%; }
+
+        .footer-content {
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .footer-label {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1rem; color: var(--studio-dark);
+            font-weight: 700;
+        }
+
+        .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+        .social-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%; background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: #95a5a6; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .social-btn:hover {
+            transform: scale(1.2) rotate(15deg);
+            background: var(--studio-yellow);
+            color: var(--studio-dark);
+            border-color: var(--studio-yellow);
+            box-shadow: 0 8px 15px rgba(244, 208, 63, 0.3);
+        }
+
+        .copyright {
+            margin-top: 5px; font-size: 0.7rem; color: #7f8c8d; font-weight: 700; letter-spacing: 0.05em;
+        }
+
+        /* DECORATIONS */
+        /* Film strip border effect */
+        .studio-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 10px; bottom: 10px; left: -10px; width: 20px;
+            background-image: radial-gradient(circle at center, var(--studio-dark) 3px, transparent 4px);
+            background-size: 10px 20px;
+            background-repeat: repeat-y;
+            opacity: 0.1;
+        }
+        .studio-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 10px; bottom: 10px; right: -10px; width: 20px;
+            background-image: radial-gradient(circle at center, var(--studio-dark) 3px, transparent 4px);
+            background-size: 10px 20px;
+            background-repeat: repeat-y;
+            opacity: 0.1;
+        }
+
+
+        .decor-clapper {
+            position: absolute; bottom: 20px; left: -20px;
+            font-size: 2rem; color: var(--studio-dark); opacity: 0.15;
+            transform: rotate(-20deg); z-index: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Stars Animation (Window View) -->
+    <div class="stars-container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="shooting-star"></div>
+    </div>
+
+    <!-- Cloud Animation -->
+    <div class="clouds-container">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+
+    <!-- The Lamp Peeking Over -->
+    <div class="lamp-peeking">
+        <div class="lamp-light-cone"></div>
+        <div class="lamp-icon-body">
+            <i class="fa-solid fa-desk-lamp"></i> <!-- Requires FontAwesome 6 Pro ideally, but generic works for vibe -->
+        </div>
+    </div>
+
+    <!-- Studio Wrapper (The Storyboard on the Desk) -->
+    <div class="studio-wrapper">
+
+        <!-- Decoration -->
+        <div class="decor-clapper"><i class="fa-solid fa-clapperboard"></i></div>
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-regular fa-lightbulb"></i>
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-film"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <!-- Luxo Ball -->
+                <div class="luxo-ball-icon"><i class="fa-solid fa-circle"></i></div>
+                <img src="https://sm.ign.com/ign_me/cover/h/harry-pott/harry-potter-the-series_brj2.jpg"
+                     alt="Profile"
+                     class="profile-img">
+            </div>
+            <h1>Sreerag p</h1>
+            <h2>@Sreerag_Dev</h2>
+            <p class="subtitle">Web Developer • Python & Django Wizard</p>
+        </section>
+
+        <!-- Links List -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project [MV]</h3>
+                    <p class="link-meta"><i class="fa-brands fa-github"></i> GitHub • Sreerag</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">My Portfolio</h3>
+                    <p class="link-meta"><i class="fa-solid fa-globe"></i> Website • Design</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Python Scripts</h3>
+                    <p class="link-meta"><i class="fa-brands fa-python"></i> Code • Snippets</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">My Tech Blog</h3>
+                    <p class="link-meta"><i class="fa-solid fa-terminal"></i> Articles • Django Tips</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-spotify"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Coding Vibes</h3>
+                    <p class="link-meta"><i class="fa-brands fa-spotify"></i> Spotify • Playlist</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Contact Me</h3>
+                    <p class="link-meta"><i class="fa-solid fa-envelope"></i> Email • Direct</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <p class="footer-label">Connect with me</p>
+
+                <div class="social-grid">
+                    <a href="#" class="social-btn fb"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn wa"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="social-btn tt"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="social-btn rd"><i class="fa-brands fa-reddit-alien"></i></a>
+                    <a href="#" class="social-btn ig"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 2025 DeltaVErse. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
