@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Linktree | Sreerag's Vibe</title>
+    <!-- Google Fonts - Poppins for modern clean look, Playfair for headers -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* * GLOBAL VARIABLES
+         * Easy to change colors here, love.
+         */
+        :root {
+            --primary-text: #4a4a4a;
+            --secondary-text: #6e6e6e;
+            --accent-gold: #c5a059;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --button-bg: rgba(255, 255, 255, 0.7);
+            --button-hover: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-text);
+            /* Stunning cosmetic wallpaper background */
+            background: url('https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* The Main Glass Container */
+        .container {
+            width: 100%;
+            max-width: 480px; /* Mobile width constraint */
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 40px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-img-container {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px;
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Placeholder face - swap with yours Sreerag if you fancy being a beauty mogul */
+            background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .bio {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .bio span {
+            margin: 0 5px;
+            color: var(--accent-gold);
+        }
+
+        /* Links Section */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--button-bg);
+            border: 1px solid white;
+            border-radius: 50px; /* Pill shape */
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .link-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            color: black;
+        }
+
+        .link-btn i {
+            margin-right: 10px;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+        }
+
+        /* The Big Featured Card (Makeup Tutorials) */
+        .featured-card {
+            display: block;
+            text-decoration: none;
+            background: #fdf6f0; /* Creamy beige base */
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin: 10px 0;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .featured-card:hover {
+            transform: scale(1.02);
+        }
+
+        .featured-header {
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        .featured-image-area {
+            width: 100%;
+            height: 140px;
+            position: relative;
+            /* Cosmetic flatlay image */
+            background-image: url('https://images.unsplash.com/photo-1596462502278-27bfdd403348?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            height: 50%;
+        }
+
+        /* Footer Socials */
+        .footer {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            color: #555;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: var(--accent-gold);
+            background: white;
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Decorative blobs for extra flair */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .blob-1 { top: -20px; left: -20px; width: 150px; height: 150px; background: rgba(255, 182, 193, 0.6); }
+        .blob-2 { bottom: -30px; right: -30px; width: 120px; height: 120px; background: rgba(255, 218, 185, 0.6); }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile specific tweaks */
+        @media (max-width: 400px) {
+            h1 { font-size: 1.5rem; }
+            .container { padding: 30px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Decorative blobs inside the glass -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+
+        <!-- Profile -->
+        <div class="profile-section">
+            <div class="profile-img-container">
+                <div class="profile-img" role="img" aria-label="Profile Picture"></div>
+            </div>
+            <h1>Sreerag</h1>
+            <h4>@Sreerag_dev</h4>
+            <div class="bio">
+                Makeup <span>|</span> Skin <span>|</span> Entrepreneur
+            </div>
+        </div>
+
+        <!-- Links -->
+        <div class="links-container">
+
+            <a href="#" class="link-btn">
+                <i class="fa-solid fa-paintbrush"></i>
+                Book MUA Appointment
+            </a>
+
+            <div style="text-align: center; margin: 5px 0 2px; font-size: 0.85rem; font-weight: 600; color: #444;">
+                <i class="fa-solid fa-fire" style="color: #e25822;"></i> Hot right now <i class="fa-solid fa-fire" style="color: #e25822;"></i>
+            </div>
+
+            <!-- Featured Card with Image -->
+            <a href="#" class="featured-card">
+                <div class="featured-header">
+                    Make Up Tutorials & Masterclasses
+                </div>
+                <div class="featured-image-area">
+                    <div class="featured-overlay"></div>
+                </div>
+            </a>
+
+            <a href="#" class="link-btn">
+                <i class="fa-solid fa-tag"></i>
+                Referral Codes
+            </a>
+
+            <a href="#" class="link-btn">
+                <i class="fa-solid fa-camera"></i>
+                My Portfolio
+            </a>
+
+            <a href="#" class="link-btn">
+                <i class="fa-brands fa-whatsapp"></i>
+                Direct WhatsApp
+            </a>
+
+        </div>
+
+        <!-- Social Footer -->
+        <div class="footer">
+            <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="social-icon"><i class="fa-solid fa-envelope"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 0.7rem; color: #666; opacity: 0.7;">
+            &copy; 2025 Deltaverse all right reserved
+        </div>
+    </div>
+
+</body>
+</html>
