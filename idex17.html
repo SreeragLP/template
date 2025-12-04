@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | Letter of Marque</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: IM Fell English (17th Century Print) & Cinzel Decorative -->
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink-black: #1a0f0a; /* Dried Ink */
+            --old-paper: #e8dcca; /* Aged Vellum */
+            --blood-wax: #8a1c1c; /* Sealing Wax */
+            --brass: #b5a642; /* Navigational Brass */
+            --wood: #2b1d16; /* Ship Deck */
+        }
+
+        body {
+            font-family: 'IM Fell English', serif;
+            /* SHIP'S DECK BACKGROUND */
+            background-color: #1e130c;
+            background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+            min-height: 100vh;
+            color: var(--ink-black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- ATMOSPHERE: CANDLELIGHT VIGNETTE --- */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* --- THE PARCHMENT (Wrapper) --- */
+        .pirate-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 460px;
+
+            /* Realistic Aged Paper */
+            background-color: var(--old-paper);
+            background-image:
+                url("https://www.transparenttextures.com/patterns/aged-paper.png"),
+                linear-gradient(to bottom right, rgba(0,0,0,0.05), rgba(0,0,0,0.2));
+
+            /* Torn/Rough Edges via clip-path is hard to make realistic, using border-radius + shadow instead */
+            border-radius: 2px;
+            box-shadow:
+                10px 10px 30px rgba(0,0,0,0.6), /* Deep shadow on table */
+                inset 0 0 60px rgba(139, 69, 19, 0.3); /* Paper staining */
+
+            padding: 40px 30px;
+            z-index: 10;
+            /* transform: rotate(-1deg); REMOVED TILT */
+            border: 1px solid #c0b090;
+        }
+
+        /* Coffee Stain / Water Damage */
+        .pirate-wrapper::after {
+            content: "";
+            position: absolute;
+            bottom: 20px; right: 20px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 5px solid rgba(60, 40, 20, 0.1);
+            filter: blur(2px);
+            pointer-events: none;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--ink-black);
+            padding-bottom: 10px;
+        }
+
+        .icon-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+            background: transparent;
+            border: 1px solid var(--ink-black);
+            color: var(--ink-black);
+            font-size: 1rem;
+            border-radius: 50%;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--blood-wax);
+            color: var(--blood-wax);
+            transform: rotate(15deg);
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex; flex-direction: column; align-items: center;
+            margin-bottom: 35px;
+            text-align: center; position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 15px;
+            width: 120px; height: 120px;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Brass Compass Ring */
+        .compass-ring {
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 4px double var(--brass);
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+            background: #fff;
+        }
+
+        .profile-img {
+            width: 100px; height: 100px;
+            border-radius: 50%; object-fit: cover;
+            /* Sepia Tone for Period Accuracy */
+            filter: sepia(0.8) contrast(1.2);
+            z-index: 2;
+            border: 1px solid #555;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: var(--ink-black);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            /* Ink Bleed Effect */
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.1rem; color: var(--blood-wax);
+            font-style: italic;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .chinese-text {
+            font-size: 0.9rem; color: var(--ink-black);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* --- LINKS LIST (Ink on Paper) --- */
+        main {
+            display: flex; flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .link-card {
+            display: flex; align-items: center;
+            padding: 12px 10px;
+            text-decoration: none; color: var(--ink-black);
+            transition: all 0.2s ease;
+            position: relative;
+
+            /* Hand-drawn divider line instead of box */
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+
+        /* Ink Splatter Hover Effect */
+        .link-card:hover {
+            background-color: rgba(0,0,0,0.05); /* Slight darkening */
+            padding-left: 15px;
+        }
+
+        .link-icon-wrapper {
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 15px; flex-shrink: 0;
+            color: var(--ink-black);
+            font-size: 1.1rem;
+        }
+
+        .link-card:hover .link-icon-wrapper { color: var(--blood-wax); }
+
+        .link-content {
+            flex: 1; display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .link-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.1rem;
+            color: var(--ink-black);
+            font-weight: 700;
+        }
+
+        .link-meta {
+            font-size: 0.8rem; color: #554e44;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        .link-action {
+            width: 24px; display: flex; justify-content: center;
+            color: var(--ink-black); opacity: 0.5;
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        .link-card:hover .link-action {
+            opacity: 1;
+            color: var(--blood-wax);
+        }
+
+        /* --- FOOTER --- */
+        footer { margin-top: auto; text-align: center; position: relative; }
+
+        .footer-content {
+            padding: 20px 0 0;
+            border-top: 2px double var(--ink-black);
+            display: flex; flex-direction: column; align-items: center;
+            gap: 15px;
+        }
+
+        .footer-label {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1rem; color: var(--ink-black);
+            letter-spacing: 0.1em;
+        }
+
+        /* Wax Seal Buttons */
+        .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+        .social-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: #fff; transition: all 0.3s;
+            background: var(--blood-red); /* Red Wax */
+            border-radius: 50%;
+            box-shadow:
+                inset 0 0 5px rgba(0,0,0,0.5), /* Wax depth */
+                2px 2px 3px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .social-btn:hover {
+            transform: scale(1.1);
+            background: #a12323;
+        }
+
+        .copyright {
+            margin-top: 10px; font-size: 0.8rem; opacity: 0.8; color: var(--ink-black); font-style: italic;
+        }
+
+        /* --- DECORATIONS --- */
+        /* Compass Rose Watermark */
+        .compass-watermark {
+            position: absolute;
+            bottom: 50px; right: -30px;
+            font-size: 8rem;
+            color: var(--ink-black);
+            opacity: 0.05;
+            z-index: 0;
+            pointer-events: none;
+            transform: rotate(-15deg);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Candlelight Vignette -->
+    <div class="vignette"></div>
+
+    <div class="pirate-wrapper">
+
+        <!-- Watermark -->
+        <div class="compass-watermark"><i class="fa-regular fa-compass"></i></div>
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn" title="Map">
+                <i class="fa-solid fa-map-location"></i>
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn" title="Rum">
+                    <i class="fa-solid fa-wine-bottle"></i>
+                </button>
+                <button class="icon-btn" title="Treasure">
+                    <i class="fa-solid fa-coins"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+             <div class="profile-img-container">
+                <div class="compass-ring"></div>
+                <img src="https://sm.ign.com/ign_me/cover/h/harry-pott/harry-potter-the-series_brj2.jpg"
+                     alt="Profile"
+                     class="profile-img">
+            </div>
+            <h1>Sreerag P.</h1>
+            <h2>@sreerag_dev</h2>
+            <p class="subtitle">Master & Commander of Code</p>
+            <p class="chinese-text">~ Parley? ~</p>
+        </div>
+
+        <!-- Links List (Captain's Log Entries) -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Plunder [MV]</h3>
+                    <p class="link-meta">GitHub • Sreerag</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">The Charts</h3>
+                    <p class="link-meta">Website • Design</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Ship's Code</h3>
+                    <p class="link-meta">Python • Snippets</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-scroll"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Captain's Log</h3>
+                    <p class="link-meta">Articles • Tips</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-spotify"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Sea Shanties</h3>
+                    <p class="link-meta">Spotify • Playlist</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Message in a Bottle</h3>
+                    <p class="link-meta">Email • Direct</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <p class="footer-label">The Brethren Court</p>
+
+                <div class="social-grid">
+                    <a href="#" class="social-btn fb"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn wa"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="social-btn tt"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="social-btn rd"><i class="fa-brands fa-reddit-alien"></i></a>
+                    <a href="#" class="social-btn ig"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 1720-2025 DeltaVErse. No Quarter Given.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
