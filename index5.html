@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sreerag's Festive Links</title>
 
-    <!-- FontAwesome -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Google Fonts: Mountains of Christmas for headers, Inter for body -->
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
 
     <style>
-
+        /* --- RESET & BASE STYLES --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -21,8 +21,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            /* Christmas Red Gradient */
+            /* FULL SCREEN RED GRADIENT BACKGROUND */
             background: linear-gradient(to bottom, #1a0505, #7f1d1d, #991b1b);
+            background-attachment: fixed; /* Keeps gradient fixed while scrolling */
             min-height: 100vh;
             color: white;
             display: flex;
@@ -30,17 +31,17 @@
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* --- SNOWFALL ANIMATION --- */
+        /* --- SNOWFALL ANIMATION (GLOBAL & INFINITE) --- */
+        /* We animate background-position instead of transform for a seamless loop */
         .snow, .snow:after, .snow:before {
             content: "";
-            position: absolute;
-            top: -650px;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
             background-image:
                 radial-gradient(4px 4px at 100px 50px, #fff, transparent),
                 radial-gradient(6px 6px at 200px 150px, #fff, transparent),
@@ -50,51 +51,71 @@
                 radial-gradient(3px 3px at 50px 200px, #fff, transparent),
                 radial-gradient(4px 4px at 150px 300px, #fff, transparent),
                 radial-gradient(6px 6px at 250px 400px, #fff, transparent),
-                radial-gradient(3px 3px at 350px 500px, #fff, transparent);
+                radial-gradient(3px 3px at 350px 500px, #fff, transparent),
+                /* Extra snow density */
+                radial-gradient(4px 4px at 50px 550px, #fff, transparent),
+                radial-gradient(3px 3px at 120px 450px, #fff, transparent),
+                radial-gradient(5px 5px at 320px 200px, #fff, transparent);
             background-size: 650px 650px;
-            animation: snow 4s linear infinite;
-            z-index: 1; /* Behind the card */
-            pointer-events: none;
+            animation: snow 10s linear infinite;
         }
 
+        /* Layer 2: Slower, slightly different size for depth */
         .snow:after {
             margin-left: -250px;
             opacity: 0.5;
             filter: blur(2px);
-            animation-duration: 6s;
-            animation-direction: reverse;
+            animation-duration: 15s;
+            animation-direction: normal;
+            background-size: 550px 550px;
         }
 
+        /* Layer 3: Fastest, blurry background snow */
         .snow:before {
             margin-left: -350px;
-            opacity: 0.7;
+            opacity: 0.3;
             filter: blur(1px);
-            animation-duration: 9s;
+            animation-duration: 20s;
+            animation-direction: normal;
+            background-size: 750px 750px;
         }
 
+        /* Animate background position for true infinity */
         @keyframes snow {
-            to {
-                transform: translateY(650px);
-            }
+            from { background-position: 0 0; }
+            to { background-position: 0 1300px; } /* Must be a multiple of background-size to loop cleanly */
         }
 
-        /* --- MASTER CARD (The Gift) --- */
+        /* --- FESTIVE WRAPPER (The Red Box) --- */
+        .festive-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px; /* Tighter width */
+            /* The Christmas Gradient (Matching body mostly but adds depth) */
+            background: linear-gradient(to bottom, rgba(26, 5, 5, 0.8), rgba(127, 29, 29, 0.8), rgba(153, 27, 27, 0.9));
+            border-radius: 24px;
+            padding: 20px; /* Internal spacing */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            z-index: 10;
+        }
+
+        /* --- MASTER CARD (Glass Layer) --- */
         .master-card {
             width: 100%;
-            max-width: 490px;
             display: flex;
             flex-direction: column;
             position: relative;
             z-index: 10;
-            padding: 24px;
-            border-radius: 24px;
+            padding: 15px;
+            border-radius: 16px;
 
-            /* Frosty Glass with Gold Border */
+            /* Glass Effect */
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid rgba(251, 191, 36, 0.5); /* Gold border */
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
         }
 
         /* --- HEADER --- */
@@ -106,40 +127,22 @@
         }
 
         .icon-btn {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            color: #fcd34d; /* Gold Icon */
-            font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+            border: none; color: #fcd34d; font-size: 0.9rem;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(251, 191, 36, 0.3);
         }
-
-        .icon-btn:hover {
-            background: #b91c1c; /* Red on hover */
-            color: white;
-            transform: rotate(15deg);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
+        .icon-btn:hover { background: #b91c1c; color: white; transform: rotate(15deg); }
+        .header-actions { display: flex; gap: 8px; }
 
         /* --- PROFILE SECTION --- */
         .profile-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
             margin-bottom: 24px;
-            text-align: center;
-            position: relative;
+            text-align: center; position: relative;
         }
 
         .profile-img-container {
@@ -150,417 +153,319 @@
 
         /* SANTA HAT CSS */
         .profile-img-container::after {
-            content: "🎅"; /* Simple emoji hat for perfectly positioning */
-            position: absolute;
-            top: -40px;
-            left: -15px;
-            font-size: 4rem;
-            transform: rotate(-15deg);
-            z-index: 20;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+            content: "🎅";
+            position: absolute; top: -35px; left: -10px;
+            font-size: 3.5rem; transform: rotate(-15deg);
+            z-index: 20; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
             pointer-events: none;
         }
 
         .profile-glow {
-            position: absolute;
-            top: -5px; bottom: -5px; left: -5px; right: -5px;
-            /* Gold and Red Glow */
+            position: absolute; top: -5px; bottom: -5px; left: -5px; right: -5px;
             background: radial-gradient(circle, #fbbf24, #b91c1c);
-            border-radius: 50%;
-            filter: blur(15px);
-            opacity: 0.6;
-            z-index: -1;
+            border-radius: 50%; filter: blur(10px); opacity: 0.6; z-index: -1;
             transition: all 0.5s ease;
         }
 
         .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fcd34d; /* Gold border */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            display: block;
-            transition: transform 0.5s ease;
+            width: 100px; height: 100px;
+            border-radius: 50%; object-fit: cover;
+            border: 2px solid #fcd34d;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            display: block; transition: transform 0.5s ease;
         }
-
-        .profile-img-container:hover .profile-img {
-            transform: scale(1.1);
-        }
+        .profile-img-container:hover .profile-img { transform: scale(1.05); }
 
         h1 {
-            font-family: 'Mountains of Christmas', cursive; /* Festive Font */
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1.8rem; font-weight: 700;
+            letter-spacing: 0.05em; margin-bottom: 2px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            color: #fef3c7; /* Creamy white */
+            color: #fef3c7; line-height: 1.1;
         }
-
          h2 {
-            font-family: 'Mountains of Christmas', cursive; /* Festive Font */
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 1rem; font-weight: 400;
+            letter-spacing: 0.05em; margin-bottom: 2px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            color: #fef3c7; /* Creamy white */
+            color: #fef3c7;
         }
-
         .subtitle {
-            font-size: 0.8rem;
-            color: #fca5a5; /* Light red/pink text */
-            font-weight: 600;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        .chinese-text {
-            font-size: 0.7rem;
-            color: #fdba74; /* Soft orange/gold */
-            opacity: 0.9;
+            font-size: 0.8rem; color: #fca5a5; font-weight: 600;
+            margin-bottom: 2px; letter-spacing: 0.5px;
         }
 
         /* --- LINKS LIST --- */
         main {
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             gap: 12px;
             margin-bottom: 24px;
         }
 
         .link-card {
-            display: flex;
-            align-items: center;
-            padding: 4px;
-            padding-right: 16px;
-            border-radius: 12px; /* Slightly less rounded, more like a card */
-            text-decoration: none;
-            color: white;
+            display: flex; align-items: center;
+            padding: 4px; padding-right: 16px;
+            border-radius: 12px;
+            text-decoration: none; color: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-
-            /* Holiday Green Glass */
+            position: relative; overflow: hidden;
             background: rgba(22, 101, 52, 0.6);
             border: 1px solid rgba(134, 239, 172, 0.2);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: 48px;
         }
 
-        /* Holiday Hover Magic */
         .link-card:hover {
-            transform: scale(1.02);
-            /* Shift to Red on Hover */
+            transform: scale(1.01);
             background: rgba(185, 28, 28, 0.8);
-            border-color: #fcd34d; /* Gold border on hover */
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); /* Gold glow */
+            border-color: #fcd34d;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
         }
 
         .link-icon-wrapper {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px; /* Squared off slightly */
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            flex-shrink: 0;
-            overflow: hidden;
+            width: 44px; height: 44px;
+            border-radius: 8px; background: rgba(0, 0, 0, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 12px; flex-shrink: 0; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .link-thumb {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-        }
+        .link-thumb { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
 
         .link-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            flex: 1; display: flex; flex-direction: column; justify-content: center;
             min-width: 0;
         }
-
         .link-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #fef3c7; /* Warm white */
+            font-size: 0.9rem; font-weight: 700; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; color: #fef3c7;
         }
-
         .link-meta {
-            font-size: 0.65rem;
-            color: #d1d5db;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 0.65rem; color: #d1d5db; display: flex;
+            align-items: center; gap: 4px; margin-top: 1px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         .link-action {
-            width: 32px;
-            display: flex;
-            justify-content: center;
-            color: #fcd34d; /* Gold dots */
-            transition: transform 0.3s;
+            width: 24px; display: flex; justify-content: center;
+            color: #fcd34d; transition: transform 0.3s; font-size: 0.8rem;
         }
-
-        .link-card:hover .link-action {
-            transform: rotate(90deg);
-            color: white;
-        }
+        .link-card:hover .link-action { transform: rotate(90deg); color: white; }
 
         /* --- FOOTER --- */
-        footer {
-            margin-top: auto;
-            text-align: center;
-        }
+        footer { margin-top: auto; text-align: center; }
 
         .footer-content {
             padding: 16px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
             gap: 12px;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
         .footer-label {
             font-family: 'Mountains of Christmas', cursive;
-            font-size: 1rem;
-            color: #fcd34d; /* Gold */
-            letter-spacing: 0.05em;
+            font-size: 1rem; color: #fcd34d; letter-spacing: 0.05em;
         }
 
-        .social-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-        }
+        .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
         .social-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s;
+            width: 36px; height: 36px;
+            border-radius: 50%; background: rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: white; transition: all 0.3s;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .social-btn:hover {
             transform: scale(1.15) rotate(10deg);
-            background: #b91c1c; /* Festive Red */
-            border-color: #fcd34d;
-            box-shadow: 0 0 10px #b91c1c;
+            background: #b91c1c; border-color: #fcd34d; box-shadow: 0 0 10px #b91c1c;
         }
 
         .copyright {
-            margin-top: 4px;
-            font-size: 0.6rem;
-            opacity: 0.6;
-            color: #d1d5db;
+            margin-top: 4px; font-size: 0.6rem; opacity: 0.6; color: #d1d5db;
         }
 
         /* DECORATIONS */
         .holly-top-right {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            font-size: 3rem;
-            transform: rotate(15deg);
-            z-index: 20;
-            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+            position: absolute; top: -10px; right: -10px;
+            font-size: 3rem; transform: rotate(15deg);
+            z-index: 20; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Snow Animation Container -->
+    <!-- Snow Animation (Full Screen & Infinite) -->
     <div class="snow"></div>
 
-    <!-- The Master Card -->
-    <div class="master-card">
+    <!-- Festive Wrapper (Holds the Red Background for the Card only) -->
+    <div class="festive-wrapper">
+        <div class="master-card">
 
-        <!-- Decoration -->
-        <div class="holly-top-right">🌿</div>
+            <!-- Decoration -->
+            <div class="holly-top-right">🌿</div>
 
-        <!-- Header -->
-        <header>
-            <button class="icon-btn">
-                <i class="fa-solid fa-snowflake"></i> <!-- Changed sun to snowflake -->
-            </button>
-
-            <div class="header-actions">
+            <!-- Header -->
+            <header>
                 <button class="icon-btn">
-                    <i class="fa-regular fa-bell"></i>
+                    <i class="fa-solid fa-snowflake"></i>
                 </button>
-                <button class="icon-btn">
-                    <i class="fa-solid fa-gift"></i> <!-- Changed share to gift -->
-                </button>
-            </div>
-        </header>
 
-        <!-- Profile Section -->
-        <section class="profile-section">
-            <div class="profile-img-container">
-                <div class="profile-glow"></div>
-                <img src="https://sm.ign.com/ign_me/cover/h/harry-pott/harry-potter-the-series_brj2.jpg"
-                     alt="Profile"
-                     class="profile-img">
-            </div>
-            <h1>Sreerag p</h1>
-            <h2>@Sreerag_Dev</h2>
-            <p class="subtitle">Web Developer • Python & Django Wizard</p>
+                <div class="header-actions">
+                    <button class="icon-btn">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
+                    <button class="icon-btn">
+                        <i class="fa-solid fa-gift"></i>
+                    </button>
+                </div>
+            </header>
 
-        </section>
+            <!-- Profile Section -->
+            <section class="profile-section">
+                <div class="profile-img-container">
+                    <div class="profile-glow"></div>
+                    <img src="https://sm.ign.com/ign_me/cover/h/harry-pott/harry-potter-the-series_brj2.jpg"
+                         alt="Profile"
+                         class="profile-img">
+                </div>
+                <h1>Sreerag p</h1>
+                <h2>@Sreerag_Dev</h2>
+                <p class="subtitle">Web Developer • Python & Django Wizard</p>
 
-        <!-- Links List -->
-        <main>
+            </section>
 
-            <!-- Link 1 -->
-            <a href="#" class="link-card">
-                <div class="link-icon-wrapper">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&q=80" class="link-thumb" alt="Icon">
-                </div>
-                <div class="link-content">
-                    <h3 class="link-title">Latest Project [MV]</h3>
-                    <p class="link-meta"><i class="fa-brands fa-github"></i> GitHub • Sreerag</p>
-                </div>
-                <div class="link-action">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </a>
+            <!-- Links List -->
+            <main>
 
-            <!-- Link 2 -->
-            <a href="#" class="link-card">
-                <div class="link-icon-wrapper">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=100&q=80" class="link-thumb" alt="Icon">
-                </div>
-                <div class="link-content">
-                    <h3 class="link-title">My Portfolio</h3>
-                    <p class="link-meta"><i class="fa-solid fa-globe"></i> Website • Design</p>
-                </div>
-                <div class="link-action">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </a>
+                <!-- Link 1 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&q=80" class="link-thumb" alt="Icon">
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Latest Project [MV]</h3>
+                        <p class="link-meta"><i class="fa-brands fa-github"></i> GitHub • Sreerag</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </a>
 
-            <!-- Link 3 -->
-            <a href="#" class="link-card">
-                <div class="link-icon-wrapper">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=100&q=80" class="link-thumb" alt="Icon">
-                </div>
-                <div class="link-content">
-                    <h3 class="link-title">Python Scripts</h3>
-                    <p class="link-meta"><i class="fa-brands fa-python"></i> Code • Snippets</p>
-                </div>
-                <div class="link-action">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </a>
+                <!-- Link 2 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=100&q=80" class="link-thumb" alt="Icon">
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">My Portfolio</h3>
+                        <p class="link-meta"><i class="fa-solid fa-globe"></i> Website • Design</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </a>
 
-            <!-- Link 4 (Tech Blog) -->
-            <a href="#" class="link-card">
-                <div class="link-icon-wrapper">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=100&q=80" class="link-thumb" alt="Icon">
+                <!-- Link 3 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=100&q=80" class="link-thumb" alt="Icon">
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Python Scripts</h3>
+                        <p class="link-meta"><i class="fa-brands fa-python"></i> Code • Snippets</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </a>
+
+                <!-- Link 4 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=100&q=80" class="link-thumb" alt="Icon">
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">My Tech Blog</h3>
+                        <p class="link-meta"><i class="fa-solid fa-terminal"></i> Articles • Django Tips</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </a>
+
+                <!-- Link 5 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&q=80" class="link-thumb" alt="Icon">
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Coding Vibes</h3>
+                        <p class="link-meta"><i class="fa-brands fa-spotify"></i> Spotify • Playlist</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </a>
+
+                <!-- Link 6 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100&q=80" class="link-thumb" alt="Icon">
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Contact Me</h3>
+                        <p class="link-meta"><i class="fa-solid fa-envelope"></i> Email • Direct</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </a>
+
+            </main>
+
+            <!-- Footer Section -->
+            <footer>
+                <div class="footer-content">
+                    <p class="footer-label">Connect with me</p>
+
+                    <div class="social-grid">
+                        <!-- Facebook -->
+                        <a href="#" class="social-btn fb">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        <!-- WhatsApp -->
+                        <a href="#" class="social-btn wa">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+
+
+                        <!-- TikTok -->
+                        <a href="#" class="social-btn tt">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+
+                        <!-- Reddit -->
+                        <a href="#" class="social-btn rd">
+                            <i class="fa-brands fa-reddit-alien"></i>
+                        </a>
+
+                        <!-- Instagram -->
+                        <a href="#" class="social-btn ig">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+
+                    <div class="copyright">
+                        &copy; 2025 DeltaVErse. All rights reserved.
+                    </div>
                 </div>
-                <div class="link-content">
-                    <h3 class="link-title">My Tech Blog</h3>
-                    <p class="link-meta"><i class="fa-solid fa-terminal"></i> Articles • Django Tips</p>
-                </div>
-                <div class="link-action">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </a>
+            </footer>
 
-            <!-- Link 5 (Spotify) -->
-            <a href="#" class="link-card">
-                <div class="link-icon-wrapper">
-                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&q=80" class="link-thumb" alt="Icon">
-                </div>
-                <div class="link-content">
-                    <h3 class="link-title">Coding Vibes</h3>
-                    <p class="link-meta"><i class="fa-brands fa-spotify"></i> Spotify • Playlist</p>
-                </div>
-                <div class="link-action">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </a>
-
-            <!-- Link 6 -->
-            <a href="#" class="link-card">
-                <div class="link-icon-wrapper">
-                    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100&q=80" class="link-thumb" alt="Icon">
-                </div>
-                <div class="link-content">
-                    <h3 class="link-title">Contact Me</h3>
-                    <p class="link-meta"><i class="fa-solid fa-envelope"></i> Email • Direct</p>
-                </div>
-                <div class="link-action">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </a>
-
-        </main>
-
-        <!-- Footer Section -->
-        <footer>
-            <div class="footer-content">
-                <p class="footer-label">Connect with me</p>
-
-                <div class="social-grid">
-                    <!-- Facebook -->
-                    <a href="#" class="social-btn fb">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-
-                    <!-- WhatsApp -->
-                    <a href="#" class="social-btn wa">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-
-
-                    <!-- TikTok -->
-                    <a href="#" class="social-btn tt">
-                        <i class="fa-brands fa-tiktok"></i>
-                    </a>
-
-                    <!-- Reddit -->
-                    <a href="#" class="social-btn rd">
-                        <i class="fa-brands fa-reddit-alien"></i>
-                    </a>
-
-                    <!-- Instagram -->
-                    <a href="#" class="social-btn ig">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                </div>
-
-                <div class="copyright">
-                    &copy; 2025 DeltaVErse. All rights reserved.
-                </div>
-            </div>
-        </footer>
-
+        </div>
     </div>
 
 </body>

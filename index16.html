@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | Fire & Ice</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Cinzel (The Official Font of Westeros) & Lato -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --stark-ice: #a5f3fc; /* Cyan-ish Blue */
+            --targaryen-fire: #b91c1c; /* Deep Blood Red */
+            --dragonglass: #0a0a0a;
+            --steel: #475569;
+            --gold: #d4af37;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            /* THE LONG NIGHT: Deep Dark Blue/Black */
+            background-color: #02040a;
+            background-image: radial-gradient(circle at 50% 0%, #0f172a 0%, #000000 80%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND FX: ETERNAL WINTER --- */
+        /* Fixed, infinite snow covering the whole screen */
+        .snow, .snow:after, .snow:before {
+            content: "";
+            position: fixed;
+            top: -650px; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            background-image:
+                radial-gradient(3px 3px at 100px 50px, #fff, transparent),
+                radial-gradient(4px 4px at 200px 150px, #a5f3fc, transparent), /* Icy Blue Snow */
+                radial-gradient(2px 2px at 300px 250px, #fff, transparent),
+                radial-gradient(3px 3px at 400px 350px, #fff, transparent),
+                radial-gradient(2px 2px at 500px 100px, #fff, transparent),
+                radial-gradient(4px 4px at 50px 200px, #fff, transparent),
+                radial-gradient(2px 2px at 150px 300px, #a5f3fc, transparent),
+                radial-gradient(3px 3px at 250px 400px, #fff, transparent),
+                radial-gradient(2px 2px at 350px 500px, #fff, transparent);
+            background-size: 650px 650px;
+            animation: snow 10s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .snow:after { margin-left: -250px; opacity: 0.4; filter: blur(2px); animation-duration: 15s; animation-direction: reverse; }
+        .snow:before { margin-left: -350px; opacity: 0.3; filter: blur(1px); animation-duration: 20s; }
+        @keyframes snow { to { transform: translateY(650px); } }
+
+        /* --- THE WESTEROS WRAPPER --- */
+        .westeros-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 530px; /* Kept your compact width */
+
+            /* The Clash: Ice Top, Fire Bottom */
+            background: linear-gradient(180deg, #0f172a 0%, #000 40%, #000 60%, #2b0a0a 100%);
+            border-radius: 4px; /* Sharp corners for metal feel */
+
+            /* Border: Ice top, Fire bottom */
+            border-top: 2px solid var(--stark-ice);
+            border-bottom: 2px solid var(--targaryen-fire);
+            border-left: 1px solid #333;
+            border-right: 1px solid #333;
+
+            padding: 20px;
+            box-shadow:
+                0 -20px 60px rgba(165, 243, 252, 0.1), /* Ice Glow Top */
+                0 20px 60px rgba(185, 28, 28, 0.2); /* Fire Glow Bottom */
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* --- DECORATION SYMBOLS (Watermarks) --- */
+        .sigil-wolf {
+            position: absolute; top: 10px; left: 10px;
+            font-size: 4rem; color: var(--stark-ice);
+            opacity: 0.1; z-index: 0; pointer-events: none;
+        }
+        .sigil-dragon {
+            position: absolute; bottom: 10px; right: 10px;
+            font-size: 4rem; color: var(--targaryen-fire);
+            opacity: 0.1; z-index: 0; pointer-events: none;
+            transform: scaleX(-1);
+        }
+
+        /* --- MASTER CARD (The Obsidian Plate) --- */
+        .master-card {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding: 15px;
+            border-radius: 8px; /* Slightly rounded */
+
+            /* Dragonglass Texture */
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #333;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+            background: #000;
+            border: 1px solid #444;
+            color: #888;
+            font-size: 0.9rem;
+            /* Shield Shape */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        /* Ice Button Hover */
+        .icon-btn:hover {
+            background: #0f172a;
+            color: var(--stark-ice);
+            border-color: var(--stark-ice);
+            box-shadow: 0 0 10px var(--stark-ice);
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex; flex-direction: column; align-items: center;
+            margin-bottom: 25px;
+            text-align: center; position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 15px;
+            cursor: pointer;
+            width: 100px; height: 100px;
+        }
+
+        /* Rotating Rings of Ice and Fire */
+        .profile-ring {
+            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            border-top-color: var(--stark-ice);
+            border-bottom-color: var(--targaryen-fire);
+            animation: spin-slow 8s linear infinite;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+
+        .profile-img {
+            width: 100%; height: 100%;
+            border-radius: 50%; object-fit: cover;
+            border: 2px solid #222;
+            /* Moody Filter */
+            filter: contrast(1.1) grayscale(0.2);
+            position: relative; z-index: 2;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.6rem; font-weight: 700;
+            letter-spacing: 0.05em; margin-bottom: 5px;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 2px 5px #000;
+        }
+         h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem; font-weight: 400;
+            letter-spacing: 0.1em; margin-bottom: 5px;
+            color: var(--gold);
+        }
+        .subtitle {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.75rem; color: #888;
+            font-weight: 400; letter-spacing: 0.05em;
+        }
+
+        /* --- LINKS LIST --- */
+        main {
+            display: flex; flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .link-card {
+            display: flex; align-items: center;
+            padding: 4px; padding-right: 12px;
+            text-decoration: none; color: #ccc;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+
+            /* Cold Steel Plate */
+            background: linear-gradient(90deg, #1a1a1a, #262626);
+            border: 1px solid #333;
+            border-left: 3px solid var(--stark-ice); /* Stark Blue default */
+            height: 48px;
+            border-radius: 2px; /* Sharp metal look */
+        }
+
+        /* Hover: FIRE TAKES OVER */
+        .link-card:hover {
+            transform: translateX(5px);
+            background: linear-gradient(90deg, #2b0a0a, #1a0505);
+            border-color: var(--targaryen-fire);
+            border-left-color: var(--targaryen-fire);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(185, 28, 28, 0.4);
+        }
+
+        .link-icon-wrapper {
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 12px; flex-shrink: 0;
+            color: #666; font-size: 1rem;
+            /* Diamond Shape Icon */
+            background: #000;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .link-card:hover .link-icon-wrapper {
+            color: var(--gold);
+            background: #2b0a0a;
+        }
+
+        .link-content {
+            flex: 1; display: flex; flex-direction: column; justify-content: center;
+            min-width: 0;
+        }
+
+        .link-title {
+            font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; color: #eee;
+            letter-spacing: 0.05em;
+        }
+
+        .link-meta {
+            font-size: 0.6rem; color: #888;
+            margin-top: 1px; text-transform: uppercase;
+            letter-spacing: 0.05em; font-family: 'Lato', sans-serif;
+        }
+
+        .link-action {
+            width: 24px; display: flex; justify-content: center;
+            color: #444; transition: transform 0.3s;
+        }
+        .link-card:hover .link-action { transform: rotate(90deg); color: var(--targaryen-fire); }
+
+        /* --- FOOTER --- */
+        footer { margin-top: auto; text-align: center; }
+
+        .footer-content {
+            padding: 12px;
+            border-top: 1px solid #333;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 12px;
+        }
+
+        .footer-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem; color: var(--gold); letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Dragon Scale Buttons */
+        .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+        .social-btn {
+            width: 32px; height: 32px;
+            background: #111;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: #888; transition: all 0.3s;
+            border: 1px solid #333;
+            transform: rotate(45deg); /* Diamond/Scale Shape */
+        }
+
+        .social-btn i { transform: rotate(-45deg); font-size: 0.9rem; }
+
+        .social-btn:hover {
+            transform: scale(1.15) rotate(45deg);
+            background: var(--targaryen-fire);
+            color: white;
+            border: none;
+            box-shadow: 0 0 10px var(--targaryen-fire);
+        }
+
+        .copyright {
+            margin-top: 4px; font-size: 0.55rem; opacity: 0.6; color: #888; letter-spacing: 0.05em; font-family: 'Lato', sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Snow Animation (Global Blizzard) -->
+    <div class="snow"></div>
+
+    <!-- The Westeros Wrapper (Compact Card) -->
+    <div class="westeros-wrapper">
+
+        <!-- Background Sigils (Watermarks) -->
+        <div class="sigil-wolf"><i class="fa-brands fa-wolf-pack-battalion"></i></div>
+        <div class="sigil-dragon"><i class="fa-solid fa-dragon"></i></div>
+
+        <div class="master-card">
+
+            <!-- Header -->
+            <header>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-snowflake"></i> <!-- Winter -->
+                </button>
+
+                <div class="header-actions">
+                    <button class="icon-btn">
+                        <i class="fa-solid fa-shield-halved"></i> <!-- Night's Watch -->
+                    </button>
+                    <button class="icon-btn">
+                        <i class="fa-solid fa-fire"></i> <!-- Fire -->
+                    </button>
+                </div>
+            </header>
+
+            <!-- Profile Section -->
+            <section class="profile-section">
+                <div class="profile-img-container">
+                    <div class="profile-ring"></div>
+                    <img src="https://imgix.bustle.com/uploads/image/2018/1/30/8e4ed0db-0ce8-454d-9680-9b318ab85ba9-b4a5a5fdc72295984961ec4d2bf7a2b62911af77979e9a28fd800ef61cb11a920f24ce9423e62b834403fad70b217cec.jpg?w=1200&h=1200&fit=crop&crop=faces&fm=jpg"
+                         alt="Profile"
+                         class="profile-img">
+                </div>
+                <h1>Sreerag p</h1>
+                <h2>@Sreerag_Dev</h2>
+                <p class="subtitle">Web Developer • Python & Django Wizard</p>
+            </section>
+
+            <!-- Links List -->
+            <main>
+
+                <!-- Link 1 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <i class="fa-solid fa-chess-rook"></i>
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Latest Conquest [MV]</h3>
+                        <p class="link-meta"><i class="fa-brands fa-github"></i> GitHub • Sreerag</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-khanda"></i>
+                    </div>
+                </a>
+
+                <!-- Link 2 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">My Dominion</h3>
+                        <p class="link-meta"><i class="fa-solid fa-globe"></i> Website • Design</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-khanda"></i>
+                    </div>
+                </a>
+
+                <!-- Link 3 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <i class="fa-brands fa-python"></i>
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Valyrian Scripts</h3>
+                        <p class="link-meta"><i class="fa-brands fa-python"></i> Code • Snippets</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-khanda"></i>
+                    </div>
+                </a>
+
+                <!-- Link 4 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <i class="fa-solid fa-book-skull"></i>
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">The Citadel</h3>
+                        <p class="link-meta"><i class="fa-solid fa-terminal"></i> Articles • Tips</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-khanda"></i>
+                    </div>
+                </a>
+
+                <!-- Link 5 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <i class="fa-brands fa-spotify"></i>
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Rains of Castamere</h3>
+                        <p class="link-meta"><i class="fa-brands fa-spotify"></i> Spotify • Playlist</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-khanda"></i>
+                    </div>
+                </a>
+
+                <!-- Link 6 -->
+                <a href="#" class="link-card">
+                    <div class="link-icon-wrapper">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <div class="link-content">
+                        <h3 class="link-title">Send a Raven</h3>
+                        <p class="link-meta"><i class="fa-solid fa-envelope"></i> Email • Direct</p>
+                    </div>
+                    <div class="link-action">
+                        <i class="fa-solid fa-khanda"></i>
+                    </div>
+                </a>
+
+            </main>
+
+            <!-- Footer Section -->
+            <footer>
+                <div class="footer-content">
+                    <p class="footer-label">Connect with me</p>
+
+                    <div class="social-grid">
+                        <a href="#" class="social-btn fb"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn wa"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" class="social-btn tt"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="social-btn rd"><i class="fa-brands fa-reddit-alien"></i></a>
+                        <a href="#" class="social-btn ig"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+
+                    <div class="copyright">
+                        &copy; 2025 DeltaVErse. Valar Morghulis.
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>
