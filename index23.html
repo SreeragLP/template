@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag Dev | The Magic Kingdom</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Great Vibes (Disney Signature Style) & Quicksand (Friendly/Modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --magic-blue: #1d1160; /* Deep Disney Blue */
+            --magic-purple: #4b0082;
+            --pixie-gold: #ffd700; /* Tinkerbell Gold */
+            --crystal-white: rgba(255, 255, 255, 0.9);
+            --text-dark: #2c003e;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            /* MAGIC KINGDOM NIGHT SKY */
+            background: radial-gradient(circle at bottom, #4b0082 0%, #1d1160 50%, #000000 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND FX: PIXIE DUST & FIREWORKS --- */
+        .magic-dust-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* The Pixie Dust Stream */
+        .pixie-dust {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: var(--pixie-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--pixie-gold), 0 0 20px #fff;
+            animation: fly-arc 8s infinite linear;
+            opacity: 0;
+        }
+
+        /* Creating the arc motion */
+        .pixie-dust:nth-child(1) { top: 80%; left: -10%; animation-delay: 0s; }
+        .pixie-dust:nth-child(2) { top: 70%; left: -10%; animation-delay: 2s; width: 6px; height: 6px; }
+        .pixie-dust:nth-child(3) { top: 90%; left: -10%; animation-delay: 4s; }
+        .pixie-dust:nth-child(4) { top: 60%; left: -10%; animation-delay: 6s; width: 5px; height: 5px; }
+
+        @keyframes fly-arc {
+            0% { transform: translate(0, 0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(110vw, -50vh); opacity: 0; }
+        }
+
+        /* Subtle Fireworks Burst */
+        .firework {
+            position: absolute;
+            top: 20%; left: 20%;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            animation: explode 4s infinite ease-out;
+        }
+        .firework:nth-child(5) { top: 20%; left: 80%; animation-delay: 1s; animation-duration: 5s; }
+        .firework:nth-child(6) { top: 10%; left: 50%; animation-delay: 2.5s; animation-duration: 4.5s; }
+
+        @keyframes explode {
+            0% { transform: scale(1); background: #fff; box-shadow: 0 0 0 0 #fff; opacity: 1; }
+            50% { background: transparent; box-shadow: 0 0 0 50px rgba(255, 215, 0, 0); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* --- MASTER CARD (The Storybook) --- */
+        .magic-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 460px;
+
+            /* Crystal/Glass Style */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            border-radius: 30px; /* Soft, friendly corners */
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            /* Magical Glow Border */
+            box-shadow:
+                0 0 30px rgba(100, 200, 255, 0.3),
+                0 0 0 4px rgba(255, 215, 0, 0.2); /* Gold Halo */
+
+            padding: 35px 25px;
+            z-index: 10;
+            overflow: visible; /* Allow Mickey ears to pop out */
+            color: var(--text-dark);
+            transition: all 0.5s ease;
+        }
+
+        .magic-wrapper:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow:
+                0 20px 50px rgba(100, 200, 255, 0.5),
+                0 0 0 6px rgba(255, 215, 0, 0.5),
+                0 0 60px rgba(255, 215, 0, 0.3); /* Enhanced glow */
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .icon-btn {
+            width: 42px; height: 42px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            color: var(--magic-blue);
+            font-size: 1.1rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .icon-btn:hover {
+            background: var(--pixie-gold);
+            color: #fff;
+            border-color: var(--pixie-gold);
+            transform: scale(1.2) rotate(20deg);
+            box-shadow: 0 0 15px var(--pixie-gold);
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        /* --- PROFILE SECTION --- */
+        .profile-section {
+            display: flex; flex-direction: column; align-items: center;
+            margin-bottom: 35px;
+            text-align: center; position: relative;
+        }
+
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 15px;
+            width: 120px; height: 120px;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Wand Decoration */
+        .wand-icon {
+            position: absolute;
+            bottom: -10px; right: -20px;
+            font-size: 2.5rem;
+            color: var(--pixie-gold);
+            z-index: 5;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transform: rotate(15deg);
+            animation: wand-wave 3s infinite ease-in-out;
+        }
+
+        @keyframes wand-wave {
+            0%, 100% { transform: rotate(15deg) translateY(0); }
+            50% { transform: rotate(0deg) translateY(-5px); }
+        }
+
+        .profile-img {
+            width: 110px; height: 110px;
+            border-radius: 50%; object-fit: cover;
+            border: 4px solid #fff;
+            /* Magical glowing border */
+            box-shadow: 0 0 0 4px var(--magic-blue), 0 0 25px var(--magic-blue);
+            z-index: 2;
+            background: #000;
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 0 4px var(--magic-blue), 0 0 15px var(--magic-blue); }
+            to { box-shadow: 0 0 0 4px var(--pixie-gold), 0 0 30px var(--pixie-gold); }
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0px;
+            color: var(--magic-blue);
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.6);
+            line-height: 1.2;
+        }
+
+        h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--magic-blue);
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.6);
+            line-height: 1.2;
+        }
+
+
+        .subtitle {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem; color: var(--text-dark);
+            font-weight: 600;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--pixie-gold);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* --- LINKS LIST (Enchanted Scrolls) --- */
+        main {
+            display: flex; flex-direction: column;
+            gap: 14px;
+            margin-bottom: 35px;
+        }
+
+        .link-card {
+            display: flex; align-items: center;
+            padding: 5px; padding-right: 20px;
+            border-radius: 50px; /* Pill shape */
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; overflow: hidden;
+
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 60px;
+        }
+
+        /* Sparkling Hover */
+        .link-card:hover {
+            transform: scale(1.03);
+            border-color: var(--pixie-gold);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .link-card:hover .link-icon-wrapper {
+            background: var(--magic-blue);
+            color: #fff;
+            transform: rotate(360deg);
+            box-shadow: 0 0 15px var(--magic-blue);
+        }
+
+        .link-card:hover .link-title { color: var(--magic-blue); }
+
+        .link-icon-wrapper {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: #f0f8ff; /* Alice Blue */
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 15px; flex-shrink: 0;
+            color: var(--magic-purple);
+            font-size: 1.2rem;
+            transition: all 0.5s ease;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+
+        .link-content {
+            flex: 1; display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .link-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .link-meta {
+            font-size: 0.75rem; color: #888;
+            font-weight: 500;
+        }
+
+        .link-action {
+            width: 24px; display: flex; justify-content: center;
+            color: #ccc; transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .link-card:hover .link-action { color: var(--pixie-gold); transform: scale(1.2); }
+
+        /* --- FOOTER --- */
+        footer { margin-top: auto; text-align: center; width: 100%; }
+
+        .footer-content {
+            padding: 15px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .footer-label {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem; color: var(--magic-purple);
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+
+        .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+        .social-btn {
+            width: 38px; height: 38px;
+            border-radius: 50%; background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: #aaa; transition: all 0.3s;
+            border: 1px solid #eee;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            background: var(--magic-purple);
+            color: #fff;
+            border-color: var(--magic-purple);
+            box-shadow: 0 5px 15px rgba(75, 0, 130, 0.4);
+        }
+
+        .copyright {
+            margin-top: 5px; font-size: 0.7rem; color: #666; font-weight: 600; letter-spacing: 0.05em;
+        }
+
+        /* --- DECORATIONS --- */
+        /* Castle Silhouette (CSS shape simplified) */
+        .castle-decor {
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            font-size: 8rem; color: var(--magic-blue); opacity: 0.05;
+            z-index: 0; pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Magic -->
+    <div class="magic-dust-container">
+        <div class="pixie-dust"></div>
+        <div class="pixie-dust"></div>
+        <div class="pixie-dust"></div>
+        <div class="pixie-dust"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+    </div>
+
+    <div class="magic-wrapper">
+
+        <!-- Decoration -->
+        <div class="castle-decor"><i class="fa-brands fa-fort-awesome"></i></div>
+
+        <!-- Header -->
+        <header>
+            <button class="icon-btn">
+                <i class="fa-solid fa-crown"></i>
+            </button>
+
+            <div class="header-actions">
+                <button class="icon-btn">
+                    <i class="fa-solid fa-wand-sparkles"></i>
+                </button>
+                <button class="icon-btn">
+                    <i class="fa-solid fa-ticket"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <img src="https://sm.ign.com/ign_me/cover/h/harry-pott/harry-potter-the-series_brj2.jpg"
+                     alt="Profile"
+                     class="profile-img">
+
+                <!-- Magic Wand -->
+                <div class="wand-icon"><i class="fa-solid fa-wand-magic"></i></div>
+            </div>
+            <h1>Sreerag</h1>
+            <h3>@Sreerag_dev</h3>
+            <div class="subtitle">Where Code Dreams Come True</div>
+        </section>
+
+        <!-- Links List -->
+        <main>
+
+            <!-- Link 1 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Latest Project [MV]</h3>
+                    <p class="link-meta">Behind the Magic</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 2 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-book-journal-whills"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">My Portfolio</h3>
+                    <p class="link-meta">Design & Wonder</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Python Spells</h3>
+                    <p class="link-meta">Code & Scripting</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 4 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-feather-pointed"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Storybook</h3>
+                    <p class="link-meta">Tech Chronicles</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 5 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-spotify"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Magical Tunes</h3>
+                    <p class="link-meta">Focus Playlist</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Link 6 -->
+            <a href="#" class="link-card">
+                <div class="link-icon-wrapper">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <div class="link-content">
+                    <h3 class="link-title">Send a Wish</h3>
+                    <p class="link-meta">Contact Me</p>
+                </div>
+                <div class="link-action">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <div class="footer-content">
+                <p class="footer-label">Join the Kingdom</p>
+
+                <div class="social-grid">
+                    <a href="#" class="social-btn fb"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn wa"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="social-btn tt"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="social-btn rd"><i class="fa-brands fa-reddit-alien"></i></a>
+                    <a href="#" class="social-btn ig"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 2025 DeltaVErse. Believe in Magic.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
